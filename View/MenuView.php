@@ -146,6 +146,8 @@ session_start();
             <li><a href="SoporteView.php">Soporte</a></li>
             <li><a href="VentasView.php">Ventas</a></li>
             <li><a href="InventarioView.php">Inventario</a></li>
+            <li><a href="OfertasView.php">Ofertas</a></li>
+            <li><a href="CartView.php">Carrito</a></li>
         </ul>
     </nav>
 

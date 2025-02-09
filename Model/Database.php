@@ -2,7 +2,7 @@
 
     function AbrirBaseDatos()
     {
-        return mysqli_connect('127.0.0.1:3306', 'root', '', 'SCMotors2');
+        return mysqli_connect('localhost', 'root', '', 'SCMotors2', '3308');
     }
 
     function CerrarBaseDatos($conexion)
