@@ -139,6 +139,7 @@ if (!isset($_SESSION['user']) || $_SESSION['role'] !== 'admin') {
 <body>
     <header>
         <h1>Gestión de Inventario</h1>
+        <p>Hola, <?= htmlspecialchars($_SESSION['user']); ?> | <a href="../View/LoginView.php?action=logout">Cerrar sesión</a></p>
     </header>
 
     <main>

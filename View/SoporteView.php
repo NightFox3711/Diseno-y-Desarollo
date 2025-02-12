@@ -138,6 +138,7 @@ if (!isset($_SESSION['user'])) {
 <body>
     <header>
         <h1>Soporte al Cliente</h1>
+        <p>Hola, <?= htmlspecialchars($_SESSION['user']); ?> | <a href="../View/LoginView.php?action=logout">Cerrar sesión</a></p>
     </header>
 
     <main>

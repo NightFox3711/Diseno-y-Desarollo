@@ -1,2 +1,2 @@
 <?php
-header("location:View/RegisterView.php");
+header("location:View/LoginView.php");

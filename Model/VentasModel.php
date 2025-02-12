@@ -1,18 +1,25 @@
 <?php
 include_once 'Database.php';
 
-// Listar todas las ventas
 function listarVentas() {
     $conexion = AbrirBaseDatos();
-    $sql = "SELECT s.id AS sale_id, s.total, s.payment_method, v.brand AS vehicle_brand, v.model AS vehicle_model, u.username AS customer_username, s.sale_date 
+    $sql = "SELECT 
+                s.id AS sale_id, 
+                s.total, 
+                s.payment_method, 
+                s.months AS months_financing, 
+                s.interest AS interest_rate, 
+                s.status AS financing_status, 
+                v.brand AS vehicle_brand, 
+                v.model AS vehicle_model, 
+                u.username AS customer_username, 
+                s.added_at 
             FROM sales s
             JOIN vehicles v ON s.vehicle_id = v.id
             JOIN users u ON s.user_id = u.id";
 
-    // Verificar si la consulta fue exitosa
     $result = $conexion->query($sql);
 
-    // Si la consulta falla, mostrar el error
     if (!$result) {
         die('Error en la consulta SQL: ' . $conexion->error);
     }
@@ -27,23 +34,36 @@ function listarVentas() {
 }
 
 
-
-// Registrar una nueva venta
-function registrarVenta($vehicle_id, $user_id, $payment_method, $total) {
+function registrarVenta($vehicle_id, $user_id, $payment_method, $total, $months = null, $interest = null) {
     $conexion = AbrirBaseDatos();
-    $vehicle_id = $conexion->real_escape_string($vehicle_id);
-    $user_id = $conexion->real_escape_string($user_id);
-    $payment_method = $conexion->real_escape_string($payment_method);
-    $total = $conexion->real_escape_string($total);
 
-    $sql = "INSERT INTO sales (vehicle_id, user_id, payment_method, total) 
-            VALUES ($vehicle_id, $user_id, '$payment_method', $total)";
-    $resultado = $conexion->query($sql);
+    
+    $months = ($months !== null && $months !== '') ? $months : null;
+    $interest = ($interest !== null && $interest !== '') ? $interest : null;
+
+    $stmt = $conexion->prepare("CALL sp_registrar_venta(?, ?, ?, ?, ?, ?)");
+
+    if (!$stmt) {
+        die("Error en la preparación: " . $conexion->error);
+    }
+
+    
+    $stmt->bind_param("iisddi", $vehicle_id, $user_id, $payment_method, $total, $months, $interest);
+
+    $resultado = $stmt->execute();
+
+    if (!$resultado) {
+        die("Error en la ejecución: " . $stmt->error);
+    }
+
+    $stmt->close();
     CerrarBaseDatos($conexion);
+
     return $resultado;
 }
 
-// Listar vehículos disponibles para la venta
+
+
 function listarVehiculosDisponibles() {
     $conexion = AbrirBaseDatos();
     $sql = "SELECT id, brand, model FROM vehicles WHERE status = 'disponible'";
@@ -56,7 +76,7 @@ function listarVehiculosDisponibles() {
     return $vehiculos;
 }
 
-// Listar clientes
+
 function listarClientes() {
     $conexion = AbrirBaseDatos();
     $sql = "SELECT id, username FROM users WHERE role = 'cliente'";

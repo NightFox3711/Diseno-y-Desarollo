@@ -21,5 +21,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'DELETE' && isset($_GET['id'])) {
     $id = $_GET['id'];
     $resultado = eliminarDelCarrito($id);
     echo json_encode(['success' => $resultado]);
+    exit();
 }
 ?>

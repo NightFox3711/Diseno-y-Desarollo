@@ -6,18 +6,25 @@ if (!isset($_SESSION['user'])) {
 }
 
 require_once '../Model/OfertasModel.php';
-$ofertas = listarOfertas();
+require_once '../Controller/OfertasController.php';
+
+// Mostrar resultados de la búsqueda si existe
+$searchTerm = isset($_GET['search']) ? $_GET['search'] : '';
+
+// Obtener las ofertas filtradas
+$ofertas = obtenerOfertas($searchTerm);
 ?>
 
 <!DOCTYPE html>
 <html lang="es">
 
 <head>
-    <!-- Agregar Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto+Condensed:wght@700&display=swap" rel="stylesheet">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>SC Motors - Menú Ofertas</title>
+
     <style>
         /* Estilos generales */
         body {
@@ -132,6 +139,10 @@ $ofertas = listarOfertas();
             /* Gris medio */
         }
 
+        .container {
+            margin-bottom: 30px; /* Espacio entre últimas tarjetas y footer */
+        }
+
         /* Pie de página */
         footer {
             text-align: center;
@@ -144,6 +155,7 @@ $ofertas = listarOfertas();
             bottom: 0;
             width: 100%;
             font-size: 0.9rem;
+            margin-top: auto;
         }
 
         footer p {
@@ -192,11 +204,112 @@ $ofertas = listarOfertas();
             border-radius: 5px;
         }
     </style>
+
+    <style>
+        /* ESTILOS PERSONALIZADOS */
+        .titulo-principal {
+            font-family: 'Roboto Condensed', sans-serif;
+            color: #b80b0b;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+            margin: 2rem 0;
+        }
+
+        .card-oferta {
+            margin-bottom: 2rem;
+            transition: transform 0.3s ease;
+            border: 1px solid #eee;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+        }
+
+        .card-oferta:hover {
+            transform: translateY(-5px);
+        }
+
+        .btn-agregar {
+            background-color: #b80b0b !important;
+            border-color: #b80b0b !important;
+            color: white !important;
+            padding: 0.75rem 2rem;
+            transition: all 0.3s ease;
+        }
+
+        .btn-agregar:hover {
+            background-color: #9a0909 !important;
+            border-color: #9a0909 !important;
+            transform: scale(1.05);
+        }
+
+        .card-img-custom {
+            height: 300px;
+            object-fit: contain;
+            object-position: center;
+            image-rendering: optimizeQuality;
+            width: 100%;
+            background: #f8f9fa; /* Fondo gris claro para espacios vacíos */
+            padding: 7px; /* Espacio alrededor de la imagen */
+        }
+
+        @media (min-width: 768px) {
+    .row-cols-md-3 {
+        grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+        }
+    }
+
+    /*FILTER*/
+    /* Estilos para centrar y alinear el buscador */
+    .search-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .search-container input {
+            max-width: 250px;
+            width: 100%;
+        }
+
+        .search-container button {
+            width: auto;
+        }
+
+        .catalogo-container h1 {
+            text-align: center;
+            font-size: 2.5rem;
+            font-weight: 600;
+            margin-bottom: 20px;
+        }
+
+        /* Estilos para centrar y alinear el buscador */
+        .search-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .search-container form {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+
+        .search-container input {
+            max-width: 300px;
+            flex-grow: 1;
+        }
+
+        .search-container button {
+            white-space: nowrap;
+        }
+    </style>
 </head>
 
 <body>
     <header>
-        <h1>Bienvenido(a) a SC Motors</h1>
+        <h1>Portafolio de Vehículos</h1>
         <?php if (isset($_SESSION['user'])): ?>
             <p>Hola, <?= htmlspecialchars($_SESSION['user']); ?> | <a href="../View/LoginView.php?action=logout">Cerrar
                     sesión</a></p>
@@ -217,41 +330,40 @@ $ofertas = listarOfertas();
         </ul>
     </nav>
 
-    <div class="container p-3 contenedor">
-        <div>
-            <strong>
-                <h1>Catálogo de Ofertas</h1>
-            </strong>
-        </div>
+    <div class="container">
+        <h1 class="text-center titulo-principal">Catálogo de Ofertas</h1>
 
-    </div>
-    <br>
-    <div class="container p-3 contenedor">
-    <div class="row">
-        <?php
-        foreach ($ofertas as $oferta) {
-        ?>
-            <div class="col-md-4">
-                <div class="card">
-                    <img class="card-img-top" src="../assets/img/<?php echo $oferta['img_vehicle_offer']; ?>" alt="<?php echo $oferta['vehicle_offer']; ?>">
-                    <div class="card-body">
-                        <h5 class="card-title"><?php echo $oferta['vehicle_offer']; ?></h5>
-                        <p class="card-text">$<?php echo $oferta['price_offer']; ?></p>
-                    </div>
-                    <div class="d-flex justify-content-center gap-3 p-3 mb-4">
-                        <a href="MenuView.php" class="btn btn-secondary w-40">Menú</a>
-                        <button class="btn btn-success w-40" 
+        <!-- FILTER DE BÚSQUEDA Y BOTÓN DE BUSQUEDA -->
+        <div class="search-container">
+            <form method="GET" class="d-flex justify-content-center">
+                <input type="text" name="search" class="form-control mr-2" placeholder="Buscar marca de vehículo"
+                    value="<?= htmlspecialchars($searchTerm); ?>" aria-label="Buscar">
+                <button class="btn btn-outline-success" type="submit">Buscar</button>
+            </form>
+        </div>
+        
+        <div class="row row-cols-1 row-cols-md-3 row-cols-lg-3 g-4">
+            <?php foreach ($ofertas as $oferta): ?>
+            <div class="col">
+                <div class="card h-100 card-oferta">
+                    <img src="../assets/img/<?= $oferta['img_vehicle_offer'] ?>" 
+                         class="card-img-top card-img-custom" 
+                         alt="<?= htmlspecialchars($oferta['vehicle_offer']) ?>">
+                    <div class="card-body text-center">
+                        <h5 class="card-title fw-bold mb-3"><?= $oferta['vehicle_offer'] ?></h5>
+                        <p class="card-text text-dark fs-4 mb-4">
+                            $<?= number_format($oferta['price_offer'], 0, ',', '.') ?>
+                        </p>
+                        <button class="btn btn-agregar" 
                                 onclick="agregarAlCarrito('<?= $_SESSION['user'] ?>', <?= $oferta['id_offer'] ?>)">
                             Agregar al Carrito
                         </button>
                     </div>
                 </div>
             </div>
-        <?php
-        }
-        ?>
+            <?php endforeach; ?>
+        </div>
     </div>
-</div>
 
 
 
@@ -260,7 +372,7 @@ $ofertas = listarOfertas();
             <p>&copy; <?= date('Y'); ?> SC Motors. Todos los derechos reservados.</p>
         </footer>
     </div>
-    <!-- Agregar Bootstrap JS -->
+   
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 
     <script>
