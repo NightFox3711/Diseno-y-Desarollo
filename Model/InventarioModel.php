@@ -47,4 +47,16 @@ function eliminarVehiculo($id) {
     CerrarBaseDatos($conexion);
     return $resultado;
 }
+
+//Editar el estado de un vehículo
+function editarEstado($id, $nuevo_estado) {
+    $conexion = AbrirBaseDatos();
+    $sql = "UPDATE vehicles SET status = ? WHERE id = ?";
+    $stmt = $conexion->prepare($sql);
+    $stmt->bind_param("si", $nuevo_estado, $id);
+    $resultado = $stmt->execute();
+    $stmt->close();
+    CerrarBaseDatos($conexion);
+    return $resultado;
+}
 ?>

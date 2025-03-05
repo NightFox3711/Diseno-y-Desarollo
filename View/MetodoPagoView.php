@@ -4,27 +4,16 @@ if (!isset($_SESSION['user'])) {
     header('Location: LoginView.php');
     exit();
 }
-
-require_once '../Model/OfertasModel.php';
-require_once '../Controller/OfertasController.php';
-
-// Mostrar resultados de la búsqueda si existe
-$searchTerm = isset($_GET['search']) ? $_GET['search'] : '';
-
-// Obtener las ofertas filtradas
-$ofertas = obtenerOfertas($searchTerm);
 ?>
 
 <!DOCTYPE html>
 <html lang="es">
 
 <head>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Roboto+Condensed:wght@700&display=swap" rel="stylesheet">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SC Motors - Menú Ofertas</title>
-
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <title>SC Motors - Inventario</title>
     <style>
         /* Estilos generales */
         body {
@@ -242,20 +231,6 @@ $ofertas = obtenerOfertas($searchTerm);
             transform: scale(1.05);
         }
 
-        .btn-info {
-            background-color: #0dcaf0 !important;
-            border-color: #0dcaf0 !important;
-            color: black !important;
-            padding: 0.75rem 2rem;
-            transition: all 0.3s ease;
-        }
-
-        .btn-infor:hover {
-            background-color: #0dcaf0 !important;
-            border-color: #0dcaf0 !important;
-            transform: scale(1.05);
-        }
-
         .card-img-custom {
             height: 300px;
             object-fit: contain;
@@ -326,13 +301,8 @@ $ofertas = obtenerOfertas($searchTerm);
 
 <body>
     <header>
-        <h1>Portafolio de Vehículos</h1>
-        <?php if (isset($_SESSION['user'])): ?>
-            <p>Hola, <?= htmlspecialchars($_SESSION['user']); ?> | <a href="../View/LoginView.php?action=logout">Cerrar
-                    sesión</a></p>
-        <?php else: ?>
-            <p><a href="LoginView.php">Iniciar sesión</a> | <a href="RegisterView.php">Registrarse</a></p>
-        <?php endif; ?>
+        <h1>Método de Pago</h1>
+        <p>Hola, <?= htmlspecialchars($_SESSION['user']); ?> | <a href="../View/LoginView.php?action=logout">Cerrar sesión</a></p>
     </header>
 
     <nav>
@@ -346,111 +316,54 @@ $ofertas = obtenerOfertas($searchTerm);
             <li><a href="CartView.php">Carrito</a></li>
         </ul>
     </nav>
+    <main>
+        <h2>Pago del Vehículo</h2>
+        <h3>Detalles del Tarjeta Habitante</h3>
+        <form action="../Controller/MetodoPagoController.php?action=add" method="POST" enctype="multipart/form-data" class="row g-3">
+            <div class="col-md-6">
+                <label for="inputNombre" class="form-label">Nombre</label>
+                <input type="text" class="form-control" name="nombre_tarjetahabitante" placeholder="" required>
+            </div>
+            <div class="col-md-6">
+                <label for="inputApellido" class="form-label">Apellidos</label>
+                <input type="text" class="form-control" name="apellido_tarjetahabitante" placeholder="" required>
+            </div>
+            <div class="col-md-6">
+                <label for="inputCorreo" class="form-label">Correo Electrónico</label>
+                <input type="email" class="form-control" name="correo_tarjetahabitante" placeholder="" required>
+            </div>
+            <h3>Detalles de la Tarjeta</h3>
+            <div class="col-md-4">
+                <label for="inputTarjeta" class="form-label">Tipo de Tarjeta</label>
+                <select id="inputTipoTarjeta" name="tipo_tarjeta" class="form-select">
+                    <option>MasterCard</option>
+                    <option>VISA</option>
+                    <option>American Express</option>
+                </select>
+            </div>
+            <div class="col-md-6">
+                <label for="inputTarjeta" class="form-label">Número de Tarjeta</label>
+                <input type="text" class="form-control" name="numero_tarjeta" placeholder="" required>
+            </div>
+            <div class="col-md-2">
+                <label for="inputCVV" class="form-label">CVV</label>
+                <input type="text" class="form-control" name="pin_tarjeta" placeholder="" required>
+            </div>
+            <div class="col-md-2">
+                <label for="inputMes" class="form-label">Mes</label>
+                <input type="text" class="form-control" name="mes_expiracion" placeholder="" required>
+            </div>
+            <div class="col-md-2">
+                <label for="inputaAno" class="form-label">Año</label>
+                <input type="year" class="form-control" name="ano_expiracion" placeholder="" required>
+            </div>
+            <div class="col-12">
+                <a href="CartView.php" class="btn btn-danger">Cancelar Pago</a>
+                <button type="submit" class="btn btn-success">Confirmar Pago</button>
+            </div>
+        </form>
 
-    <div class="container">
-        <h1 class="text-center titulo-principal">Catálogo de Ofertas</h1>
-
-        <!-- FILTER DE BÚSQUEDA Y BOTÓN DE BUSQUEDA -->
-        <div class="search-container">
-            <form method="GET" class="d-flex justify-content-center">
-                <div class="input-group">
-                    <input type="text" name="search" class="form-control"
-                        placeholder="Buscar marca de vehículo"
-                        value="<?= isset($searchTerm) ? htmlspecialchars($searchTerm) : ''; ?>"
-                        aria-label="Buscar marca de vehículo">
-                    <button class="btn btn-outline-success ms-4" type="submit" aria-label="Buscar vehículo">Buscar</button>
-                </div>
-            </form>
-        </div>
-
-
-
-
-        <div class="row row-cols-1 row-cols-md-3 row-cols-lg-3 g-4">
-            <?php foreach ($ofertas as $oferta): ?>
-                <div class="col">
-                    <div class="card h-100 card-oferta">
-                        <img src="../assets/img/<?= $oferta['img_vehicle_offer'] ?>"
-                            class="card-img-top card-img-custom"
-                            alt="<?= htmlspecialchars($oferta['vehicle_offer']) ?>">
-                        <div class="card-body text-center">
-                            <h5 class="card-title fw-bold mb-3"><?= $oferta['vehicle_offer'] ?></h5>
-                            <p class="card-text text-dark fs-4 mb-4">
-                                $<?= number_format($oferta['price_offer'], 0, ',', '.') ?>
-                            </p>
-                            <p class="card-text text-dark fs-5 mb-3">
-                                Estado: <strong><?= htmlspecialchars($oferta['status_vehicle']) ?></strong>
-                            </p>
-                            <button class="btn btn-agregar"
-                                onclick="agregarAlCarrito('<?= $_SESSION['user'] ?>', <?= $oferta['id_offer'] ?>)">
-                                Agregar al Carrito
-                            </button>
-                            <!-- Nuevo botón "Ver Información" -->
-                            <button class="btn btn-info mt-3" data-bs-toggle="modal" data-bs-target="#infoModal_<?= $oferta['id_offer'] ?>">
-                                Ver Información
-                            </button>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Modal -->
-                <div class="modal fade" id="infoModal_<?= $oferta['id_offer'] ?>" tabindex="-1" aria-labelledby="infoModalLabel_<?= $oferta['id_offer'] ?>" aria-hidden="true">
-                    <div class="modal-dialog">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <h5 class="modal-title" id="infoModalLabel_<?= $oferta['id_offer'] ?>">Información de la Oferta</h5>
-                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                            </div>
-                            <div class="modal-body">
-                                <img src="../assets/img/<?= $oferta['img_vehicle_offer'] ?>"
-                                    class="card-img-top card-img-custom"
-                                    alt="<?= htmlspecialchars($oferta['vehicle_offer']) ?>">
-                                <p><strong>Vehículo:</strong> <?= htmlspecialchars($oferta['vehicle_offer']) ?></p>
-                                <p><strong>Precio:</strong> $<?= number_format($oferta['price_offer'], 0, ',', '.') ?></p>
-                                <p><strong>Estado:</strong> <?= htmlspecialchars($oferta['status_vehicle']) ?></p>
-                                <p><strong>Kilometraje:</strong> <?= htmlspecialchars($oferta['km_vehicle']) ?> km</p>
-                                <p><strong>Tipo:</strong> <?= htmlspecialchars($oferta['type_vehicle']) ?></p>
-                                <p><strong>Tracción:</strong> <?= htmlspecialchars($oferta['traction_vehicle']) ?></p>
-                                <p><strong>Motor:</strong> <?= htmlspecialchars($oferta['motor_vehicle']) ?> CC</p>
-                            </div>                            
-                        </div>
-                    </div>
-                </div>
-            <?php endforeach; ?>
-        </div>
-
-    </div>
-    <div>
-        <footer>
-            <p>&copy; <?= date('Y'); ?> SC Motors. Todos los derechos reservados.</p>
-        </footer>
-    </div>
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-
-    <script>
-        function agregarAlCarrito(userName, offerId) {
-            fetch('../Controller/CartController.php', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify({
-                        user_name: userName,
-                        offer_id: offerId
-                    })
-                })
-                .then(response => response.json())
-                .then(data => {
-                    if (data.success) {
-                        window.location.href = 'CartView.php'; // Redirige al carrito
-                    } else {
-                        alert('Error al agregar al carrito');
-                    }
-                });
-        }
-    </script>
-
+    </main>
 </body>
 
 </html>

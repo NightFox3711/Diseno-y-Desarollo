@@ -39,4 +39,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
     }
 }
 
-?>
+//Editar estado del vehículo
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    if (isset($_GET['action']) && $_GET['action'] === 'edit') {
+        $id = $_POST['id'];
+        $nuevo_estado = $_POST['nuevo_estado'];
+        if (editarEstado($id, $nuevo_estado)) {
+            header('Location: ../View/InventarioView.php?msg=updated');
+        } else {
+            header('Location: ../View/InventarioView.php?msg=error');
+        }
+    }
+}
+
+
