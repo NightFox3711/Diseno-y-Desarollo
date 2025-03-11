@@ -1,137 +1,132 @@
-
-
-
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Registro</title>
-    <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,300,700" rel="stylesheet" type="text/css">
-    <style>
-        /* Estilos generales */
-        html, body * { box-sizing: border-box; font-family: 'Open Sans', sans-serif; }
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Registro | Solis Motors</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;600&display=swap" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet">
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Poppins', sans-serif;
+    }
 
-        body {
-          background: linear-gradient(rgba(240,240,240,0.9), rgba(240,240,240,0.9)), 
-          url(https://dl.dropboxusercontent.com/u/22006283/preview/codepen/sky-clouds-cloudy-mountain.jpg) no-repeat center center fixed;
-          background-size: cover;
-        }
+    body {
+      background: linear-gradient(to right, rgb(47, 26, 206), rgb(31, 77, 157));
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      color: #333;
+    }
 
-        .container {
-          width: 100%;
-          padding-top: 60px;
-          padding-bottom: 100px;
-        }
+    .login-card {
+      width: 400px;
+      background-color: #ffffff;
+      padding: 40px;
+      border-radius: 15px;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+    }
 
-        .frame {
-          height: 650px;
-          width: 430px;
-          background: linear-gradient(rgba(50,50,50,0.9), rgba(20,20,20,0.9));
-          margin-left: auto;
-          margin-right: auto;
-          border-top: solid 1px rgba(255,255,255,0.5);
-          border-radius: 10px;
-          box-shadow: 0px 4px 10px rgba(0,0,0,0.3);
-          overflow: hidden;
-          transition: all .5s ease;
-        }
+    .login-card h1 {
+      font-size: 28px;
+      text-align: center;
+      color: #333;
+      margin-bottom: 15px;
+    }
 
-        h1 {
-          color: #ffffff; /* Blanco */
-          text-align: center;
-          padding-top: 20px;
-          font-weight: 300;
-        }
+    .slogan {
+      font-size: 14px;
+      text-align: center;
+      color: #666;
+      margin-bottom: 30px;
+    }
 
-        .slogan-container {
-          background-color: #ff0000; /* Rojo */
-          padding: 10px;
-          border-radius: 5px;
-          margin: 15px 20px;
-          text-align: center;
-          box-shadow: 0px 2px 5px rgba(0,0,0,0.2);
-        }
+    .input-group {
+      position: relative;
+      margin-bottom: 20px;
+    }
 
-        .slogan {
-          color: #ffffff; /* Blanco */
-          font-size: 1rem;
-          font-style: italic;
-          margin: 0;
-          font-weight: 600;
-        }
+    .input-group input,
+    .input-group select {
+      width: 100%;
+      padding: 12px 15px 12px 40px;
+      border-radius: 25px;
+      border: 1px solid #ddd;
+      background-color: #f7f9fc;
+      outline: none;
+    }
 
-        .form-styling, select.form-styling {
-          width: 100%;
-          height: 35px;
-          padding-left: 15px;
-          border: none;
-          border-radius: 20px;
-          margin-bottom: 20px;
-          background: rgba(200,200,200,0.3); /* Gris translúcido */
-          font-size: 13px;
-          color: #000000; /* Negro */
-        }
+    .input-group .fa-user,
+    .input-group .fa-lock,
+    .input-group .fa-user-tag {
+      position: absolute;
+      top: 50%;
+      left: 15px;
+      transform: translateY(-50%);
+      color: #aaa;
+    }
 
-        .form-signin, .form-signup {
-          width: 430px;
-          padding: 55px 37px;
-          font-size: 16px;
-          font-weight: 300;
-        }
+    .btn {
+      width: 100%;
+      padding: 12px;
+      border: none;
+      border-radius: 25px;
+      background-color: #2575fc;
+      color: #fff;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
 
-        /* Estilos del botón */
-        button {
-          width: 100%;
-          height: 40px;
-          border: none;
-          border-radius: 20px;
-          background: #ff0000; /* Rojo */
-          color: #ffffff; /* Blanco */
-          font-weight: 700;
-          text-transform: uppercase;
-          transition: transform 0.3s ease, background 0.3s ease;
-          cursor: pointer;
-        }
+    .btn:hover {
+      background-color: #1a5ccf;
+    }
 
-        button:hover {
-          background: #cc0000; /* Rojo más oscuro */
-          transform: scale(1.05);
-        }
+    .register-link {
+      text-align: center;
+      margin-top: 15px;
+    }
 
-        button:active {
-          transform: scale(0.95);
-        }
+    .register-link a {
+      text-decoration: none;
+      color: rgb(88, 55, 218);
+      font-weight: 500;
+    }
 
-        /* Estilo de las etiquetas */
-        label {
-          color: #ffffff; /* Blanco */
-        }
-    </style>
+    .register-link a:hover {
+      text-decoration: underline;
+    }
+  </style>
 </head>
 <body>
-    <div class="container">
-        <div class="frame">
-            <h1>Registro de Usuario</h1>
-            <div class="slogan-container">
-                <p class="slogan">Únete a <b>SC Motors</b> - "Liderando el camino hacia el futuro"</p>
-            </div>
-            <form class="form-signin" method="POST" action="../Controller/RegisterController.php">
-                <label for="username">Usuario:</label>
-                <input class="form-styling" type="text" id="username" name="username" required>
-                
-                <label for="password">Contraseña:</label>
-                <input class="form-styling" type="password" id="password" name="password" required>
-                
-                <label for="role">Rol:</label>
-                <select class="form-styling" id="role" name="role">
-                    <option value="cliente">Cliente</option>
-                    <option value="admin">Administrador</option>
-                </select>
-
-                <button type="submit"><span>Registrar</span></button>
-            </form>
-        </div>
+  <div class="login-card">
+    <h1>Registro de Usuario</h1>
+    <p class="slogan">Únete a <b>Solis Motors</b> - Liderando el camino hacia el futuro</p>
+    <form action="../Controller/RegisterController.php" method="POST">
+      <div class="input-group">
+        <i class="fa-solid fa-user"></i>
+        <input type="text" name="username" placeholder="Usuario" required>
+      </div>
+      <div class="input-group">
+        <i class="fa-solid fa-lock"></i>
+        <input type="password" name="password" placeholder="Contraseña" required>
+      </div>
+      <div class="input-group">
+        <i class="fa-solid fa-user-tag"></i>
+        <select name="role" required>
+          <option value="cliente">Cliente</option>
+          <option value="admin">Administrador</option>
+        </select>
+      </div>
+      <button type="submit" class="btn">Registrar</button>
+    </form>
+    <div class="register-link">
+      ¿Ya tienes una cuenta? <a href="LoginView.php">Inicia sesión aquí</a>
     </div>
+  </div>
 </body>
 </html>

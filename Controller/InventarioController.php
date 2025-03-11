@@ -52,4 +52,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 }
 
+if (isset($_GET['action']) && $_GET['action'] === 'notify') {
+    $vehicleId = $_POST['vehicle_id'];
+    $userName = $_POST['user_name'];  
+    
+    if (registrarSolicitudNotificacion($vehicleId, $userName)) {
+        header("Location: ../View/InventarioView.php?msg=notif_success");
+    } else {
+        header("Location: ../View/InventarioView.php?msg=notif_error");
+    }
+    exit();
+}
 

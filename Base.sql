@@ -1,3 +1,4 @@
+
 -- Crear la base de datos
 CREATE DATABASE SCMotors2;
 
@@ -33,7 +34,7 @@ CREATE TABLE sales (
     interest DECIMAL(5, 2) DEFAULT NULL, -- Interés del financiamiento
     profit DECIMAL(10, 2) GENERATED ALWAYS AS (total * (1 + interest / 100)) STORED,
     status ENUM('pendiente', 'aprobado', 'rechazado') DEFAULT 'pendiente',
-    added_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP, -- Si le da error el date_sale ca,biarlo por created_at
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP, -- Si le da error el date_sale ca,biarlo por created_at
     FOREIGN KEY (vehicle_id) REFERENCES vehicles(id) ON DELETE CASCADE,
     FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
 );
@@ -45,9 +46,10 @@ CREATE TABLE support_requests (
     type ENUM('chat', 'cita', 'prueba') NOT NULL, -- Tipo de solicitud (chat, cita, prueba)
     details TEXT NOT NULL,                     -- Detalles de la solicitud
     status ENUM('pendiente', 'resuelto') DEFAULT 'pendiente', -- Estado de la solicitud
-    added_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP, -- Fecha de creación de la solicitud
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP, -- Fecha de creación de la solicitud
     FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE -- Relación con usuarios
 );
+
 
 CREATE TABLE quotes (
     id INT AUTO_INCREMENT PRIMARY KEY,         -- ID único para cada cotización
@@ -63,8 +65,9 @@ CREATE TABLE quotes (
 
 -- Tabla de promociones
 CREATE TABLE offers (
-	id_offer INT AUTO_INCREMENT PRIMARY KEY, 
+    id_offer INT AUTO_INCREMENT PRIMARY KEY, 
     vehicles_id_offer INT NOT NULL,
+    status_vehicle VARCHAR(10) NOT NULL,
     vehicle_offer VARCHAR (50) NOT NULL, 
     price_offer DECIMAL (10,2) NOT NULL,
     img_vehicle_offer VARCHAR (255) NOT NULL
@@ -76,10 +79,24 @@ CREATE TABLE cart (
     user_name VARCHAR(50) NOT NULL,
     offer_id INT NOT NULL,
     quantity INT DEFAULT 1,
-    added_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (user_name) REFERENCES users(username) ON DELETE CASCADE,
     FOREIGN KEY (offer_id) REFERENCES offers(id_offer) ON DELETE CASCADE
 );
+
+DROP TABLE IF EXISTS availability_requests;
+
+CREATE TABLE availability_requests (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  vehicle_id INT NOT NULL,
+  user_name VARCHAR(50) NOT NULL,
+  is_notified TINYINT NOT NULL DEFAULT 0,
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  FOREIGN KEY (vehicle_id) REFERENCES vehicles(id) ON DELETE CASCADE,
+  FOREIGN KEY (user_name) REFERENCES users(username) ON DELETE CASCADE
+);
+
+
 
 
 -- Insertar usuarios de prueba
@@ -120,11 +137,22 @@ INSERT INTO support_requests (user_id, type, details, status) VALUES
 (2, 'prueba', 'Solicito prueba de manejo del Honda Civic.', 'resuelto'),
 (2, 'prueba', 'Solicito prueba de manejo del Honda Civic.', 'pendiente');  -- Cliente 2 solicita prueba de manejo
 
--- insertar offers de prueba
-INSERT INTO offers (vehicles_id_offer, vehicle_offer, price_offer, img_vehicle_offer) VALUES
-	(1, 'KIA Sportage ', 12500.00, 'KIA Sportage.jpg'),
-    (2, 'NISSAN Qashqai', 17500.00, 'Nissan Qashqai.jpg'),
-    (3, 'TOYOTA Yaris ', 10000.00, 'Toyota Yaris.png'),
+INSERT INTO offers (vehicles_id_offer, vehicle_offer, status_vehicle, price_offer, img_vehicle_offer, km_vehicle, type_vehicle, traction_vehicle, motor_vehicle) VALUES
+    (1, 'Toyota Prado TX 2017', 'Semi Nuevo', 44336.00, 'Toyota Prado TX 2017.jpg', 64.000, 'Automático', '4X4', 3.000 ),
+    (2, 'Toyota Corolla Cross 2023', 'Semi Nuevo', 24490.00, 'Toyota CoAzul Cross 2023.jpg', 37.000, 'Automático', '4X2', 2.000 ),
+    (3, 'Suzuki Vitara 2023', 'Semi Nuevo', 24990.00, 'Suzuki Vitara 2023.jpg', 29.500, 'Automático', '4X2', 1.600 ),
+    (4, 'Hyundai Tucson 2017', 'Semi Nuevo', 17000.00, 'Hyundai Tucson 2017.jpg', 85.000, 'Automático', '4x2', 2.000 ),
+    (5, 'Toyota Land Cruiser 1993', 'Semi Nuevo', 23000.00, 'Toyota Land Cruiser 1993.jpg', 30.000, 'Manual', '4x4', 4.164 ),
+    (6, 'Toyota Rush 2022', 'Semi Nuevo', 21990.00, 'Toyota Rush 2022.jpg', 64.000, 'Automático', '4x2', 1.500 ),
+    (7, 'Toyota Rush 2023', 'Semi Nuevo', 22990.00, 'Toyota Rush 2023.jpg', 51.000, 'Automático', '4x2', 1.500 ),
+    (8, 'Toyota Corolla Cross 2023', 'Semi Nuevo', 24490.00, 'Toyota CoBlanco Cross 2023.jpg', 39.000, 'Automático', '4x2', 2.000 ),
+    (9, 'Toyota Raize 2023', 'Semi Nuevo', 18490.00, 'Toyota Raize 2023.jpg', 14.000, 'Manual', '4x2', 1.200 ),
+    (10, 'Toyota Prado TXL 2023', 'Semi Nuevo', 64490.00, 'Toyota Prado TXL 2023.jpg', 32.000, 'Automático', '4x4', 3.000 ),
+    (11, 'Toyota Rav4 2022', 'Semi Nuevo', 32490.00, 'Toyota Rav4 2022.jpg', 41.000, 'Automático', '4x4', 2.000),
+    (12, 'Toyota Fortuner 2020', 'Semi Nuevo', 45490.00, 'Toyota Fortuner 2020.jpg', 64.000, 'Automático', '4x4', 2.800 ),
+    (13, 'Toyota Fortuner 2022', 'Semi Nuevo', 50490.00, 'Toyota Fortuner 2022.jpg', 48.000, 'Automático', '4x4', 2.8000 ),
+    (14, 'Toyota Prado VX 2016', 'Semi Nuevo', 49415.00, 'Toyota Prado VX 2016.jpg', 72.000, 'Automático', '4X4', 3.000 ),
+    (15, 'Toyota Hilux 2019', 'Semi Nuevo', 36500.00, 'Toyota Hilux 2019.jpg', 10.400, 'Manual', '4X4', 2.400 );
   
   -- Insertar cotización
 INSERT INTO quotes (vehicle_id, price_final, financing_options, email)  
@@ -137,23 +165,6 @@ SET SQL_SAFE_UPDATES = 1;
 
 ALTER TABLE offers AUTO_INCREMENT = 1;
 
-INSERT INTO offers (vehicles_id_offer, vehicle_offer, price_offer, img_vehicle_offer) VALUES
-    (1, 'Toyota Prado TX 2017', 44336.00, 'Toyota Prado TX 2017.jpg'),
-    (2, 'Toyota Corolla Cross 2023', 24490.00, 'Toyota CoAzul Cross 2023.jpg'),
-    (3, 'Suzuki Vitara 2023', 24990.00, 'Suzuki Vitara 2023.jpg'),
-    (4, 'Hyundai Tucson 2017', 17000.00, 'Hyundai Tucson 2017.jpg'),
-    (5, 'Toyota Land Cruiser 1993', 23000.00, 'Toyota Land Cruiser 1993.jpg'),
-    (6, 'Toyota Rush 2022', 21990.00, 'Toyota Rush 2022.jpg'),
-    (7, 'Toyota Rush 2023', 22990.00, 'Toyota Rush 2023.jpg'),
-    (8, 'Toyota Corolla Cross 2023', 24490.00, 'Toyota CoBlanco Cross 2023.jpg'),
-    (9, 'Toyota Raize 2023', 18490.00, 'Toyota Raize 2023.jpg'),
-    (10, 'Toyota Prado TXL 2023', 64490.00, 'Toyota Prado TXL 2023.jpg'),
-    (11, 'Toyota Rav4 2022', 32490.00, 'Toyota Rav4 2022.jpg'),
-    (12, 'Toyota Fortuner 2020', 45490.00, 'Toyota Fortuner 2020.jpg'),
-    (13, 'Toyota Fortuner 2022', 50490.00, 'Toyota Fortuner 2022.jpg'),
-    (14, 'Toyota Prado VX 2016', 49415.00, 'Toyota Prado VX 2016.jpg'),
-    (15, 'Toyota Hilux 2019', 36500.00, 'Toyota Hilux 2019.jpg');
-
 -- isertar en el carrito    
 INSERT INTO cart (user_name, offer_id, quantity) VALUES ('cliente1', 1, 2);
 
@@ -163,6 +174,11 @@ Select * From users;
 Select * From support_requests;
 select * from offers;
 select * from cart;
+select * from availability_requests;
+
+DROP TABLE IF EXISTS availability_requests;
+SHOW TABLES;
+
 
 DELETE FROM cart WHERE id > 0;
 
@@ -170,7 +186,6 @@ DELETE FROM cart WHERE id > 0;
 Crear los sp
 
 DELIMITER $$
-
 CREATE PROCEDURE sp_registrar_vehiculo(
     IN p_brand VARCHAR(50),
     IN p_model VARCHAR(50),
@@ -182,11 +197,10 @@ BEGIN
     INSERT INTO vehicles (brand, model, price, status, image_path)
     VALUES (p_brand, p_model, p_price, p_status, p_image_path);
 END $$
-
 DELIMITER ;
 
-DELIMITER $$
 
+DELIMITER $$
 CREATE PROCEDURE sp_registrar_venta(
     IN p_vehicle_id INT,
     IN p_user_id INT,
@@ -200,11 +214,10 @@ BEGIN
     -- Actualizar el estado del vehículo a 'reservado'
     UPDATE vehicles SET status = 'reservado' WHERE id = p_vehicle_id;
 END $$
-
 DELIMITER ;
 
-DELIMITER $$
 
+DELIMITER $$
 CREATE PROCEDURE sp_registrar_soporte(
     IN p_user_id INT,
     IN p_type ENUM('chat', 'cita', 'prueba'),
@@ -214,11 +227,10 @@ BEGIN
     INSERT INTO support_requests (user_id, type, details, status)
     VALUES (p_user_id, p_type, p_details, 'pendiente');
 END $$
-
 DELIMITER ;
 
-DELIMITER $$
 
+DELIMITER $$
 CREATE PROCEDURE sp_actualizar_estado_soporte(
     IN p_request_id INT,
     IN p_status ENUM('pendiente', 'resuelto')
@@ -228,11 +240,10 @@ BEGIN
     SET status = p_status
     WHERE id = p_request_id;
 END $$
-
 DELIMITER ;
 
-DELIMITER $$
 
+DELIMITER $$
 CREATE PROCEDURE sp_obtener_vehiculo(
     IN p_vehicle_id INT
 )
@@ -241,25 +252,22 @@ BEGIN
     FROM vehicles
     WHERE id = p_vehicle_id;
 END $$
-
 DELIMITER ;
 
-DELIMITER $$
 
+DELIMITER $$
 CREATE PROCEDURE sp_consultar_ventas()
 BEGIN
     SELECT s.id AS sale_id, v.brand AS vehicle_brand, v.model AS vehicle_model, u.username AS customer_username, 
-           s.payment_method, s.total, s.added_at AS sale_date
+           s.payment_method, s.total, s.created_at AS sale_date
     FROM sales s
     JOIN vehicles v ON s.vehicle_id = v.id
     JOIN users u ON s.user_id = u.id;
 END $$
-
 DELIMITER ;
 
 
 DELIMITER $$
-
 CREATE PROCEDURE sp_obtener_oferta(
     IN p_id_offer INT
 )
@@ -268,8 +276,8 @@ BEGIN
     FROM offers
     WHERE id_offer = p_id_offer;
 END $$
-
 DELIMITER ;
+
 call sp_obtener_oferta(1);
 
 DELIMITER $$
@@ -287,6 +295,7 @@ BEGIN
     SELECT * FROM quotes;
 END $$
 DELIMITER ;
+
 
 DELIMITER $$
 CREATE PROCEDURE sp_generar_cotizacion(IN p_vehicle_id INT)
@@ -332,7 +341,6 @@ DELIMITER ;
 
 
 DELIMITER $$
-
 CREATE PROCEDURE sp_agregar_al_carrito(
     IN p_user_name VARCHAR(50),
     IN p_offer_id INT
@@ -342,11 +350,10 @@ BEGIN
     VALUES (p_user_name, p_offer_id, 1)
     ON DUPLICATE KEY UPDATE quantity = quantity + 1;
 END $$
-
 DELIMITER ;
 
-DELIMITER $$
 
+DELIMITER $$
 CREATE PROCEDURE ShowCart(IN p_user_name VARCHAR(50))
 BEGIN
     SELECT 
@@ -358,13 +365,13 @@ BEGIN
         c.quantity,
         (o.price_offer * c.quantity) AS total_price,
         o.img_vehicle_offer,
-        c.added_at
+        c.created_at
     FROM cart c
     JOIN offers o ON c.offer_id = o.id_offer
     WHERE c.user_name = p_user_name;
 END $$
-
 DELIMITER ;
+
 CALL sp_agregar_al_carrito('cliente1', 1);
 CALL sp_agregar_al_carrito('cliente1', 1);
 

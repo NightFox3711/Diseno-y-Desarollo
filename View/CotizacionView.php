@@ -4,30 +4,32 @@ if (!isset($_SESSION['user'])) {
     header('Location: LoginView.php');
     exit();
 }
-
 require_once '../Model/CotizacionModel.php';
-$clientes = sp_listar_clientes();/**No tocar */
-$vehiculos = sp_listar_vehiculos();/**No tocar */
+$clientes = sp_listar_clientes();
+$vehiculos = sp_listar_vehiculos();
 ?>
-
 <!DOCTYPE html>
 <html lang="es">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Gestión de Cotizaciones</title>
-  <!-- Google Fonts: Roboto -->
   <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
-  <!-- Bootstrap 5 CSS -->
+  <!-- Bootstrap CSS -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <!-- Bootstrap Icons -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
   <style>
     body {
-      background-color: #f8f9fa;
+      background-color: #FFFFFF;
       font-family: 'Roboto', sans-serif;
+      margin: 0;
+      padding: 0;
     }
+    /* Encabezado */
     .header {
-      background-color: #dc3545;
-      color: #fff;
+      background-color: #468EDB;
+      color: #FFFFFF;
       padding: 40px 20px;
       text-align: center;
       margin-bottom: 30px;
@@ -36,46 +38,138 @@ $vehiculos = sp_listar_vehiculos();/**No tocar */
       margin: 0;
       font-size: 2.5rem;
     }
+    .header p {
+      margin-top: 10px;
+      font-size: 1.1rem;
+    }
+    /* Barra de navegación con animaciones */
+    nav.navbar {
+      background-color: #1F2ADB !important;
+      margin-bottom: 20px; /* Espacio debajo de la barra */
+    }
+    nav.navbar .navbar-brand {
+      color: #FFFFFF !important;
+      font-size: 1.1rem;
+      font-weight: 600;
+      text-decoration: none;
+      transition: color 0.3s ease;
+    }
+    nav.navbar .navbar-brand:hover {
+      color: #468EDB !important;
+    }
+    nav.navbar .navbar-nav {
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+    }
+    nav.navbar .nav-item {
+      position: relative;
+    }
+    nav.navbar .nav-link {
+      color: #FFFFFF !important;
+      font-size: 1.2rem;
+      font-weight: 600;
+      padding: 16px 24px;
+      border-radius: 5px;
+      text-decoration: none;
+      transition: transform 0.3s ease, background 0.3s ease;
+    }
+    nav.navbar .nav-link:hover {
+      background-color: #1F2ADB;
+      transform: scale(1.05);
+    }
+    nav.navbar .nav-item:before {
+      content: "";
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 0%;
+      height: 2px;
+      background-color: #FFFFFF;
+      transition: width 0.3s ease;
+    }
+    nav.navbar .nav-item:hover:before {
+      width: 100%;
+    }
+    /* Contenedor del contenido principal */
+    .content-container {
+      margin-top: 20px;
+      padding-bottom: 40px;
+    }
+    /* Estilos para tarjetas y formularios */
+    .card-header.bg-dark {
+      background-color: #1F2ADB !important;
+      color: #FFFFFF !important;
+      transition: background-color 0.3s ease;
+    }
+    .btn-dark {
+      background-color: #1F2ADB !important;
+      border-color: #1F2ADB !important;
+      color: #FFFFFF !important;
+      transition: background-color 0.3s ease, transform 0.2s ease;
+    }
+    .btn-dark:hover {
+      background-color: #468EDB !important;
+      border-color: #468EDB !important;
+      transform: scale(1.03);
+    }
   </style>
 </head>
 <body>
-  <!-- Barra de navegación -->
-  <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+  <!-- Encabezado -->
+  <div class="header">
+    <h1>Gestión de Cotizaciones</h1>
+    <p class="lead">Administra tus cotizaciones de forma rápida y sencilla</p>
+  </div>
+  
+  <!-- Barra de navegación completa justo debajo del encabezado -->
+  <nav class="navbar navbar-expand-lg">
     <div class="container">
-      <a class="navbar-brand" href="#">SC Motors</a>
-      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" 
+      <a class="navbar-brand" href="MenuView.php"><i class="bi bi-arrow-left"></i> Volver al menú</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
               aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
       <div class="collapse navbar-collapse" id="navbarNav">
         <ul class="navbar-nav ms-auto">
-          <li class="nav-item"><a class="nav-link" href="InventarioView.php">Inventario</a></li>
-          <li class="nav-item"><a class="nav-link" href="VentasView.php">Ventas</a></li>
-          <li class="nav-item"><a class="nav-link" href="SoporteView.php">Soporte</a></li>
-          <li class="nav-item"><a class="nav-link" href="FinanciamientoView.php">Financiamiento</a></li>
-          <li class="nav-item"><a class="nav-link active" aria-current="page" href="CotizacionView.php">Cotizaciones</a></li>
+
+        <li class="nav-item">
+            <a class="nav-link" href="VentasView.php"><i class="bi bi-cart"></i> Ventas</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="InventarioView.php"><i class="bi bi-box"></i> Inventario</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link active" aria-current="page" href="CotizacionView.php"><i class="bi bi-file-text"></i> Cotizaciones</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="OfertasView.php"><i class="bi bi-gift"></i> Ofertas</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="CartView.php"><i class="bi bi-cart3"></i> Carrito</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="TestDriveView.php"><i class="bi bi-car-front"></i> Prueba Manejo</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="NotificacionesView.php"><i class="bi bi-bell"></i> Notificaciones</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="SoporteView.php"><i class="bi bi-question-circle"></i> Soporte</a>
+          </li>
         </ul>
       </div>
     </div>
   </nav>
 
-  <!-- Encabezado principal -->
-  <div class="header">
-    <h1>Gestión de Cotizaciones</h1>
-    <p class="lead">Administra tus cotizaciones de forma rápida y sencilla</p>
-  </div>
-
-  <div class="container">
-    <!-- Mostrar mensaje (si existe) -->
+  <!-- Contenido principal -->
+  <div class="container content-container">
     <?php if (!empty($msg)): ?>
       <div class="alert alert-info">
         <?php echo htmlspecialchars($msg); ?>
       </div>
     <?php endif; ?>
-
-    <!-- Primer fila: Crear Cotización y Registrar Cuota -->
     <div class="row">
-      <!-- Crear Cotización -->
       <div class="col-md-6">
         <div class="card mb-4 shadow-sm">
           <div class="card-header bg-dark text-white">
@@ -83,26 +177,25 @@ $vehiculos = sp_listar_vehiculos();/**No tocar */
           </div>
           <div class="card-body">
             <form method="POST" action="../Controller/CotizacionController.php">
-              <!-- Indicador para crear cotización -->
               <input type="hidden" name="create_quote">
               <div class="mb-3">
-                <label for="client_id" class="form-label">Cliente:</label> <!--No tocar -->
-                <select name="client_id" id="client_id" class="form-select" required><!--No tocar -->
-                  <option value="">Seleccione un cliente</option><!--No tocar -->
-                  <?php foreach ($clientes as $client): ?><!--No tocar -->
-                    <option value="<?php echo $client['id']; ?>"><!--No tocar -->
-                      <?php echo $client['username']; ?><!--No tocar -->
+                <label for="client_id" class="form-label">Cliente:</label>
+                <select name="client_id" id="client_id" class="form-select" required>
+                  <option value="">Seleccione un cliente</option>
+                  <?php foreach ($clientes as $client): ?>
+                    <option value="<?php echo $client['id']; ?>">
+                      <?php echo $client['username']; ?>
                     </option>
                   <?php endforeach; ?>
                 </select>
               </div>
               <div class="mb-3">
-                <label for="vehicle_id" class="form-label">Vehículo:</label><!--No tocar -->
-                <select name="vehicle_id" id="vehicle_id" class="form-select" required><!--No tocar -->
-                  <option value="">Seleccione un vehículo</option><!--No tocar -->
-                  <?php foreach ($vehiculos as $vehicle): ?><!--No tocar -->
-                    <option value="<?php echo $vehicle['id']; ?>"><!--No tocar -->
-                      <?php echo $vehicle['brand'] . " " . $vehicle['model']; ?><!--No tocar -->
+                <label for="vehicle_id" class="form-label">Vehículo:</label>
+                <select name="vehicle_id" id="vehicle_id" class="form-select" required>
+                  <option value="">Seleccione un vehículo</option>
+                  <?php foreach ($vehiculos as $vehicle): ?>
+                    <option value="<?php echo $vehicle['id']; ?>">
+                      <?php echo $vehicle['brand'] . " " . $vehicle['model']; ?>
                     </option>
                   <?php endforeach; ?>
                 </select>
@@ -112,7 +205,6 @@ $vehiculos = sp_listar_vehiculos();/**No tocar */
           </div>
         </div>
       </div>
-      <!-- Registrar Cuota -->
       <div class="col-md-6">
         <div class="card mb-4 shadow-sm">
           <div class="card-header bg-dark text-white">
@@ -120,7 +212,6 @@ $vehiculos = sp_listar_vehiculos();/**No tocar */
           </div>
           <div class="card-body">
             <form method="POST" action="../Controller/CotizacionController.php">
-              <!-- Indicador para registrar cuota -->
               <input type="hidden" name="create_cuota">
               <div class="mb-3">
                 <label for="quote_id_cuota" class="form-label">Cotización:</label>
@@ -147,10 +238,7 @@ $vehiculos = sp_listar_vehiculos();/**No tocar */
         </div>
       </div>
     </div>
-
-    <!-- Segunda fila: Consultar Cotizaciones y Consultar Cuotas -->
     <div class="row">
-      <!-- Consultar Cotizaciones -->
       <div class="col-md-6">
         <div class="card mb-4 shadow-sm">
           <div class="card-header bg-dark text-white">
@@ -160,12 +248,12 @@ $vehiculos = sp_listar_vehiculos();/**No tocar */
             <form method="GET" action="../Controller/CotizacionController.php">
               <input type="hidden" name="action" value="list">
               <div class="mb-3">
-                <label for="client_id_list" class="form-label">Cliente:</label><!--No tocar -->
-                <select name="client_id" id="client_id_list" class="form-select" required><!--No tocar -->
-                  <option value="">Seleccione un cliente</option><!--No tocar -->
-                  <?php foreach ($clientes as $client): ?><!--No tocar -->
-                    <option value="<?php echo $client['id']; ?>"><!--No tocar -->
-                      <?php echo $client['username']; ?><!--No tocar -->
+                <label for="client_id_list" class="form-label">Cliente:</label>
+                <select name="client_id" id="client_id_list" class="form-select" required>
+                  <option value="">Seleccione un cliente</option>
+                  <?php foreach ($clientes as $client): ?>
+                    <option value="<?php echo $client['id']; ?>">
+                      <?php echo $client['username']; ?>
                     </option>
                   <?php endforeach; ?>
                 </select>
@@ -175,7 +263,6 @@ $vehiculos = sp_listar_vehiculos();/**No tocar */
           </div>
         </div>
       </div>
-      <!-- Consultar Cuotas -->
       <div class="col-md-6">
         <div class="card mb-4 shadow-sm">
           <div class="card-header bg-dark text-white">
@@ -196,18 +283,14 @@ $vehiculos = sp_listar_vehiculos();/**No tocar */
               </div>
               <button type="submit" class="btn btn-dark w-100">Ver Cuotas</button>
             </form>
-            <!-- Resultado de la consulta de cuotas se mostrará aquí -->
             <div id="cuotasResult" class="mt-3"></div>
           </div>
         </div>
       </div>
     </div>
-
-  </div><!-- /.container -->
-
-  <!-- Bootstrap 5 JS Bundle con Popper -->
+  </div>
+  <!-- Bootstrap JS Bundle -->
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-  <!-- Script para consultar cuotas vía AJAX -->
   <script>
     document.getElementById('consultarCuotasForm').addEventListener('submit', function(e) {
       e.preventDefault();
