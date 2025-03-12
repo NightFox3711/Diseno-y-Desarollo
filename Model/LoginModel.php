@@ -1,16 +1,35 @@
 <?php
-require_once 'Database.php';
+require_once "Database.php"; // Archivo de conexión a la BD
 
-function validarUsuario($username, $password) {
-    $conexion = AbrirBaseDatos();
-    $username = mysqli_real_escape_string($conexion, $username);
-    $password = mysqli_real_escape_string($conexion, $password);
+class AuthModel {
+    private $conexion;
 
-    $sql = "SELECT * FROM users WHERE username = '$username' AND password = '$password'";
-    $resultado = mysqli_query($conexion, $sql);
+    public function __construct() {
+        $this->conexion = AbrirBaseDatos();
+    }
 
-    $usuario = mysqli_fetch_assoc($resultado);
-    CerrarBaseDatos($conexion);
+    public function validarUsuarioPorCedula($cedula, $password) {
+        try {
+            $query = "CALL sp_validar_usuario_por_cedula(?)";
+            $stmt = $this->conexion->prepare($query);
+            $stmt->bind_param("s", $cedula);
+            $stmt->execute();
+            $result = $stmt->get_result();
 
-    return $usuario;
+            if ($result->num_rows > 0) {
+                $usuario = $result->fetch_assoc();
+                // Verificar contraseña
+                if (password_verify($password, $usuario['password'])) {
+                    return $usuario; // Devuelve los datos si la contraseña es correcta
+                }
+            }
+            return false; // Usuario no encontrado o contraseña incorrecta
+        } catch (Exception $e) {
+            return false;
+        } finally {
+            $stmt->close();
+            CerrarBaseDatos($this->conexion);
+        }
+    }
 }
+?>

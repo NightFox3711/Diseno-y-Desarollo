@@ -1,18 +1,22 @@
 <?php
-require_once '../Model/LoginModel.php';
+session_start();
+require_once "../Model/LoginModel.php";
 
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $username = $_POST['username'];
-    $password = $_POST['password'];
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    $cedula = $_POST["cedula"];
+    $password = $_POST["password"];
 
-    $usuario = validarUsuario($username, $password);
+    $authModel = new AuthModel();
+    $usuario = $authModel->validarUsuarioPorCedula($cedula, $password);
 
     if ($usuario) {
-        session_start();
-        $_SESSION['user'] = $usuario['username'];
-        $_SESSION['role'] = $usuario['role'];
-        header('Location: ../View/MenuView.php');
+        $_SESSION["id_usuario"] = $usuario["id_usuario"];
+        $_SESSION["nombre"] = $usuario["nombre"];
+        $_SESSION["email"] = $usuario["email"];
+        $_SESSION["rol"] = $usuario["rol"];
+        header("Location: ../View/MenuView.php");
     } else {
-        echo "Credenciales incorrectas.";
+        header("Location: ../View/LoginView.php?error=1");
     }
 }
+?>
