@@ -9,6 +9,7 @@
   <title>Encuesta de Satisfacción - MotorsBot</title>
   <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
   <!-- Bootstrap CSS -->
+   <!-- Lo hizo Nicole -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
   <style>
     body {
