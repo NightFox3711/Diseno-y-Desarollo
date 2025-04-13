@@ -4,27 +4,27 @@ use scmotors371
 
 
 CREATE TABLE Usuarios (
-    id_usuario INT PRIMARY KEY AUTO_INCREMENT,
-    nombre VARCHAR(100) NOT NULL,
-    email VARCHAR(100) UNIQUE NOT NULL,
-    password VARCHAR(255) NOT NULL,
-    telefono VARCHAR(15),
-    direccion TEXT,
+    id_usuario INT PRIMARY KEY AUTO_INCREMENT,---------
+    nombre VARCHAR(100) NOT NULL,--------------
+    email VARCHAR(100) UNIQUE NOT NULL,----------------
+    password VARCHAR(255) NOT NULL,---------------
+    telefono VARCHAR(15),----------------
+    direccion TEXT,--------------
     cedula VARCHAR(20) UNIQUE NOT NULL,
-    rol ENUM('Admin', 'Cliente') NOT NULL,
-    fecha_creacion DATETIME DEFAULT CURRENT_TIMESTAMP
+    rol ENUM('Admin', 'Cliente') NOT NULL,-------------------
+    fecha_creacion DATETIME DEFAULT CURRENT_TIMESTAMP-
 );
 
 
 
 CREATE TABLE Vehiculos (
-    id_vehiculo INT PRIMARY KEY AUTO_INCREMENT,
-    marca VARCHAR(50) NOT NULL,
-    modelo VARCHAR(50) NOT NULL,
+    id_vehiculo INT PRIMARY KEY AUTO_INCREMENT,------------
+    marca VARCHAR(50) NOT NULL,------------
+    modelo VARCHAR(50) NOT NULL,--------------
     año INT NOT NULL,
-    precio DECIMAL(10,2) NOT NULL,
+    precio DECIMAL(10,2) NOT NULL,-----------------
     estado ENUM('Disponible', 'Reservado', 'Vendido') NOT NULL,  -- Estado del vehículo
-    imagen VARCHAR(255)  -- URL o nombre de la imagen
+    imagen VARCHAR(255)  -- URL o nombre de la imagen----------------------
 );
 
 
