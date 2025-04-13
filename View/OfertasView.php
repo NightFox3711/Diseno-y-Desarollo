@@ -1,9 +1,9 @@
 <?php
-session_start();
+/*session_start();
 if (!isset($_SESSION['user'])) {
     header('Location: LoginView.php');
     exit();
-}
+}*/
 require_once '../Model/OfertasModel.php';
 require_once '../Controller/OfertasController.php';
 $searchTerm = isset($_GET['search']) ? $_GET['search'] : '';

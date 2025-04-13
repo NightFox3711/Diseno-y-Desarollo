@@ -172,7 +172,7 @@ session_start();
     </div>
   </nav>
   <main>
-    <h2>Acerca de Solis Motors</h2>
+    <h2>Acerca de Solís Motors CR</h2>
     <p>
       Descubre el universo Solis Motors, donde la pasión por la carretera se fusiona con la excelencia automotriz. Explora nuestra exclusiva selección de vehículos nuevos, seminuevos y usados, cuidadosamente elegidos para ofrecerte calidad, innovación y el máximo rendimiento. Nuestro equipo de expertos está listo para asesorarte y acompañarte en cada paso, transformando cada viaje en una experiencia inolvidable. ¡Atrévete a conducir el futuro y siente la emoción de pertenecer a la familia Solis Motors!
     </p>

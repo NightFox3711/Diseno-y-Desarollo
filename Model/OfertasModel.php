@@ -2,7 +2,7 @@
 include_once 'Database.php';
 
 function listarOfertas($searchTerm = '') {
-    $conexion = AbrirBaseDatos();
+    $conexion = Database::AbrirBaseDatos();
     if ($conexion->connect_error) {
         die("Error de conexión: " . $conexion->connect_error);
     }
@@ -29,6 +29,6 @@ function listarOfertas($searchTerm = '') {
         }
     }
 
-    CerrarBaseDatos($conexion);
+    Database::CerrarBaseDatos($conexion);
     return $ofertas;
 }

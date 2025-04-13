@@ -2,7 +2,7 @@
 include_once 'Database.php';
 
 function obtenerCarrito($user_name) {
-    $conexion = AbrirBaseDatos();
+    $conexion = Database::AbrirBaseDatos();
     $carrito = [];
     
     try {
@@ -18,14 +18,14 @@ function obtenerCarrito($user_name) {
     } catch (Exception $e) {
         error_log("Error en obtenerCarrito: " . $e->getMessage());
     } finally {
-        CerrarBaseDatos($conexion);
+        Database::CerrarBaseDatos($conexion);
     }
     
     return $carrito;
 }
 
 function agregarCarrito($user_name, $offer_id) {
-    $conexion = AbrirBaseDatos();
+    $conexion = Database::AbrirBaseDatos();
     $resultado = false;
     
     try {
@@ -36,14 +36,14 @@ function agregarCarrito($user_name, $offer_id) {
     } catch (Exception $e) {
         error_log("Error en agregarCarrito: " . $e->getMessage());
     } finally {
-        CerrarBaseDatos($conexion);
+        Database::CerrarBaseDatos($conexion);
     }
     
     return $resultado;
 }
 
 function eliminarDelCarrito($id) {
-    $conexion = AbrirBaseDatos();
+    $conexion = Database::AbrirBaseDatos();
     $resultado = false;
     
     try {
@@ -53,7 +53,7 @@ function eliminarDelCarrito($id) {
     } catch (Exception $e) {
         error_log("Error en eliminarDelCarrito: " . $e->getMessage());
     } finally {
-        CerrarBaseDatos($conexion);
+        Database::CerrarBaseDatos($conexion);
     }
     
     return $resultado;

@@ -7,7 +7,7 @@ if (!isset($_SESSION['user'])) {
 require_once '../Model/Database.php';
 require_once '../Model/InventarioModel.php';
 $userName = $_SESSION['user'];
-$conexion = AbrirBaseDatos();
+$conexion = Database::AbrirBaseDatos();
 $sql = "
     SELECT 
         ar.id AS request_id,
@@ -32,7 +32,7 @@ while ($fila = $result->fetch_assoc()) {
     $solicitudes[] = $fila;
 }
 $stmt->close();
-CerrarBaseDatos($conexion);
+Database::CerrarBaseDatos($conexion);
 ?>
 <!DOCTYPE html>
 <html lang="es">

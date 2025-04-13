@@ -251,6 +251,7 @@ if (!isset($_SESSION['user'])) {
             <li><a href="InventarioView.php">Inventario</a></li>
             <li><a href="OfertasView.php">Ofertas</a></li>
             <li><a href="CartView.php">Carrito</a></li>
+            <li><a href="TestDriveView.php">Prueba de Manejo</a></li>
         </ul>
     </nav>
     <main>
@@ -278,10 +279,34 @@ if (!isset($_SESSION['user'])) {
                     <option>American Express</option>
                 </select>
             </div>
-            <div class="col-md-6">
+
+            <div class="col-md-4">
                 <label for="inputTarjeta" class="form-label">Número de Tarjeta</label>
-                <input type="text" class="form-control" name="numero_tarjeta" required>
+                <input type="text" 
+                       class="form-control" 
+                       name="numero_tarjeta" 
+                       id="numeroTarjeta"
+                       placeholder="XXXX-XXXX-XXXX-XXXX" 
+                       maxlength="19"
+                       required>
             </div>
+
+            <script>
+                document.getElementById('numeroTarjeta').addEventListener('input', function(e) {
+                    //eliminar todo excepto números
+                    let valor = e.target.value.replace(/\D/g, '');
+                    
+                    //bloques de 4 dígitos separados por guiones
+                    valor = valor.match(/.{1,4}/g);
+                    
+                    if(valor) {
+                        //guiones y limitar a 16 dígitos
+                        valor = valor.join('-').substr(0, 19);
+                        e.target.value = valor;
+                    }
+                });
+            </script>
+
             <div class="col-md-2">
                 <label for="inputCVV" class="form-label">CVV</label>
                 <input type="text" class="form-control" name="pin_tarjeta" required>

@@ -1,5 +1,5 @@
 <?php
-require_once "Database.php"; // Archivo de conexión a la BD
+require_once "Database.php";
 
 class VentasModel
 {
@@ -7,10 +7,43 @@ class VentasModel
 
     public function __construct()
     {
-        $this->conexion = AbrirBaseDatos();
+        $this->conexion = Database::AbrirBaseDatos();
     }
 
-    public function registrarCotizacion($id_cliente, $id_vehiculo, $precio_estimado, $plazo, $interes, $descuento_aplicado)
+public function listarVentas() {
+    $conexion = Database::AbrirBaseDatos();
+    $sql = "SELECT 
+                s.id AS sale_id, 
+                s.total, 
+                s.payment_method, 
+                s.months AS months_financing, 
+                s.interest AS interest_rate, 
+                s.status AS financing_status, 
+                v.brand AS vehicle_brand, 
+                v.model AS vehicle_model, 
+                u.username AS customer_username, 
+                s.added_at 
+            FROM sales s
+            JOIN vehicles v ON s.vehicle_id = v.id
+            JOIN users u ON s.user_id = u.id";
+
+        $result = $conexion->query($sql);
+
+        if (!$result) {
+            die('Error en la consulta SQL: ' . $conexion->error);
+        }
+
+        $ventas = [];
+        while ($fila = $result->fetch_assoc()) {
+            $ventas[] = $fila;
+        }
+
+    Database::CerrarBaseDatos($this->conexion);
+    return $ventas;
+}
+
+
+    public function registrarCotizacion($id_cliente, $id_vehiculo, $precio_estimado, $plazo, $interes, $descuento_aplicado){
     {
         try {
             $query = "CALL sp_registrar_cotizacion(?, ?, ?, ?, ?, ?)";
@@ -24,11 +57,12 @@ class VentasModel
             if (isset($stmt)) {
                 $stmt->close();
             }
-            CerrarBaseDatos($this->conexion);
+            Database::CerrarBaseDatos($this->conexion);
         }
     }
+}
 
-    public function obtenerCotizaciones()
+    function obtenerCotizaciones()
     {
         try {
             $query = "CALL sp_mostrar_cotizaciones()";
@@ -42,38 +76,66 @@ class VentasModel
         } catch (Exception $e) {
             return [];
         } finally {
-            CerrarBaseDatos($this->conexion);
+            Database::CerrarBaseDatos($this->conexion);
         }
+}
+
+
+function registrarVenta($vehicle_id, $user_id, $payment_method, $total, $months = null, $interest = null) {
+    $conexion = Database::AbrirBaseDatos();
+
+    $months = ($months !== null && $months !== '') ? $months : null;
+    $interest = ($interest !== null && $interest !== '') ? $interest : null;
+
+    $stmt = $conexion->prepare("CALL sp_registrar_venta(?, ?, ?, ?, ?, ?)");
+
+    if (!$stmt) {
+        die("Error en la preparación: " . $conexion->error);
     }
 
-    
-    public function registrarVenta($id_cliente, $id_vehiculo, $total, $saldo_pendiente, $estado)
-    {
-        $conexion = AbrirBaseDatos();
-        $query = "CALL sp_registrar_venta(?, ?, ?, ?, ?)";
-        $stmt = $conexion->prepare($query);
+    $stmt->bind_param("iisddi", $vehicle_id, $user_id, $payment_method, $total, $months, $interest);
 
-        if (!$stmt) {
-            die("Error en la preparación: " . $conexion->error);
-        }
+    $resultado = $stmt->execute();
 
-        $stmt->bind_param("iidds", $id_cliente, $id_vehiculo, $total, $saldo_pendiente, $estado);
-        $resultado = $stmt->execute();
-
-        if (!$resultado) {
-            die("Error en la ejecución: " . $stmt->error);
-        }
-
-        $stmt->close();
-        CerrarBaseDatos($conexion);
-        return $resultado;
+    if (!$resultado) {
+        die("Error en la ejecución: " . $stmt->error);
     }
 
+    $stmt->close();
+    Database::CerrarBaseDatos($this->conexion);
 
-    // Función para mostrar todas las ventas
-    public function obtenerVentas()
+    return $resultado;
+}
+
+function listarVehiculosDisponibles() {
+    $conexion = Database::AbrirBaseDatos();
+    $sql = "SELECT id, brand, model FROM vehicles WHERE status = 'disponible'";
+    $result = $conexion->query($sql);
+    $vehiculos = [];
+    while ($fila = $result->fetch_assoc()) {
+        $vehiculos[] = $fila;
+    }
+    Database::CerrarBaseDatos($this->conexion);
+    return $vehiculos;
+}
+
+
+function listarClientes() {
+    $conexion = Database::AbrirBaseDatos();
+    $sql = "SELECT id, username FROM users WHERE role = 'cliente'";
+    $result = $conexion->query($sql);
+    $clientes = [];
+    while ($fila = $result->fetch_assoc()) {
+        $clientes[] = $fila;
+    }
+    Database::CerrarBaseDatos($this->conexion);
+    return $clientes;
+}
+
+    //Función para mostrar todas las ventas
+    function obtenerVentas()
     {
-        $conexion = AbrirBaseDatos();
+        $conexion = Database::AbrirBaseDatos();
         $query = "CALL sp_mostrar_ventas()";
         $result = $conexion->query($query);
 
@@ -82,13 +144,13 @@ class VentasModel
             $ventas[] = $row;
         }
 
-        CerrarBaseDatos($conexion);
+        Database::CerrarBaseDatos($this->conexion);
         return $ventas;
     }
 
 
 // Registrar una devolución
-    public function registrarDevolucion($id_venta, $id_usuario, $motivo, $estado)
+    function registrarDevolucion($id_venta, $id_usuario, $motivo, $estado)
     {
         try {
             $query = "CALL sp_registrar_devoluciones(?, ?, ?, ?)";
@@ -102,12 +164,12 @@ class VentasModel
             if (isset($stmt)) {
                 $stmt->close();
             }
-            CerrarBaseDatos($this->conexion);
+            Database::CerrarBaseDatos($this->conexion);
         }
     }
 
     // Obtener las devoluciones
-    public function obtenerDevoluciones()
+    function obtenerDevoluciones()
     {
         try {
             $query = "CALL sp_Mostrar_devoluciones()";
@@ -121,13 +183,13 @@ class VentasModel
         } catch (Exception $e) {
             return [];
         } finally {
-            CerrarBaseDatos($this->conexion);
+            Database::CerrarBaseDatos($this->conexion);
         }
     }
 
     // Ajuste para la parte de facturación
 
-    public function registrarFactura($id_venta, $total)
+    function registrarFactura($id_venta, $total)
     {
         try {
             $query = "CALL sp_registrar_factura(?, ?)";
@@ -139,11 +201,11 @@ class VentasModel
             return false;
         } finally {
             $stmt->close();
-            CerrarBaseDatos($this->conexion);
+            Database::CerrarBaseDatos($this->conexion);
         }
     }
 
-    public function obtenerFacturas()
+    function obtenerFacturas()
     {
         try {
             $query = "CALL sp_mostrar_facturas()";
@@ -156,11 +218,11 @@ class VentasModel
         } catch (Exception $e) {
             return [];
         } finally {
-            CerrarBaseDatos($this->conexion);
+            Database::CerrarBaseDatos($this->conexion);
         }
     }
 
-    public function registrarPago($id_venta, $metodo_pago, $monto, $meses, $saldo_pendiente)
+    function registrarPago($id_venta, $metodo_pago, $monto, $meses, $saldo_pendiente)
     {
         try {
             $query = "CALL sp_registrar_pago(?, ?, ?, ?, ?)";
@@ -172,13 +234,13 @@ class VentasModel
             return false;
         } finally {
             $stmt->close();
-            CerrarBaseDatos($this->conexion);
+            Database::CerrarBaseDatos($this->conexion);
         }
     }
 
     // Función para obtener los pagos registrados
     // Función para obtener todos los pagos registrados
-    public function obtenerPagos()
+    function obtenerPagos()
     {
         try {
             // Consulta para obtener todos los pagos
@@ -204,7 +266,7 @@ class VentasModel
 
     }
 
-    public function registrarPromocion($id_vehiculo, $descripcion, $descuento, $fecha_inicio, $fecha_fin)
+    function registrarPromocion($id_vehiculo, $descripcion, $descuento, $fecha_inicio, $fecha_fin)
     {
         try {
             $query = "CALL sp_registrar_promociones(?, ?, ?, ?, ?)";
@@ -216,11 +278,11 @@ class VentasModel
             return false;
         } finally {
             $stmt->close();
-            CerrarBaseDatos($this->conexion);
+            Database::CerrarBaseDatos($this->conexion);
         }
     }
 
-    public function obtenerPromociones()
+    function obtenerPromociones()
     {
         try {
             $query = "CALL sp_mostrar_promociones()";
@@ -233,13 +295,11 @@ class VentasModel
         } catch (Exception $e) {
             return [];
         } finally {
-            CerrarBaseDatos($this->conexion);
+            Database::CerrarBaseDatos($this->conexion);
         }
     }
 
-
-
-    public function registrarReserva($id_cliente, $id_vehiculo, $monto_reserva, $estado)
+    function registrarReserva($id_cliente, $id_vehiculo, $monto_reserva, $estado)
     {
         try {
             $query = "CALL sp_registrar_reserva(?, ?, ?, ?)";
@@ -259,11 +319,11 @@ class VentasModel
             error_log("Error en registrarReserva: " . $e->getMessage());
             return false;
         } finally {
-            CerrarBaseDatos($this->conexion);
+            Database::CerrarBaseDatos($this->conexion);
         }
     }
 
-    public function obtenerReservas()
+    function obtenerReservas()
     {
         try {
             $query = "CALL sp_mostrar_reservas()";
@@ -283,12 +343,12 @@ class VentasModel
             error_log("Error en obtenerReservas: " . $e->getMessage());
             return [];
         } finally {
-            CerrarBaseDatos($this->conexion);
+            Database::CerrarBaseDatos($this->conexion);
         }
     }
 
 
-    public function generarReporteVentas()
+    function generarReporteVentas()
     {
         $query = "CALL sp_generar_reporte_ventas()";
         $resultado = $this->conexion->query($query);
@@ -301,7 +361,7 @@ class VentasModel
     }
 
     
-    public function obtenerReportes()
+    function obtenerReportes()
     {
         $query = "SELECT * FROM Reportes_Ventas";
         $result = $this->conexion->query($query);
@@ -313,6 +373,5 @@ class VentasModel
 
         return $reportes;
     }
-    
 }
-
+?>

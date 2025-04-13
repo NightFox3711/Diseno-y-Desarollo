@@ -1,13 +1,25 @@
 <?php
-require_once "Database.php"; // Archivo de conexión a la BD
+require_once "Database.php";
 
-class UsuarioModel {
+/* class UsuarioModel {
     private $conexion;
 
     public function __construct() {
         $this->conexion = AbrirBaseDatos();
-    }
+    } */
 
+function registrarUsuario($username, $password, $role) {
+    $conexion = Database::AbrirBaseDatos();
+    $username = mysqli_real_escape_string($conexion, $username);
+    $password = mysqli_real_escape_string($conexion, $password); 
+    $role = mysqli_real_escape_string($conexion, $role);
+
+    $sql = "INSERT INTO users (username, password, role) VALUES ('$username', '$password', '$role')";
+    $resultado = mysqli_query($conexion, $sql);
+    Database::CerrarBaseDatos($conexion);
+
+
+    /*
     public function registrarUsuario($nombre, $email, $password, $telefono, $direccion, $cedula, $rol) {
         try {
             $passwordHash = password_hash($password, PASSWORD_DEFAULT);
@@ -26,6 +38,6 @@ class UsuarioModel {
             $stmt->close();
             CerrarBaseDatos($this->conexion);
         }
-    }
+    } */
 }
 ?>
