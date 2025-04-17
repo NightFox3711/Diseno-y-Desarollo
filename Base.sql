@@ -24,16 +24,22 @@ CREATE TABLE users (
  
  select * from users
 
--- Crear tabla para vehículos (inventario)
+-- Crear tabla para vehículos (inventario y catalogo)
 CREATE TABLE vehicles (
     id_vehicle INT AUTO_INCREMENT PRIMARY KEY,         
-    brand VARCHAR(50) NOT NULL,          
-    model VARCHAR(50) NOT NULL,
-    price DECIMAL(10, 2) NOT NULL,
-    status ENUM('Disponible', 'Reservado', 'Vendido') DEFAULT 'Disponible' NOT NULL,
-    image_path VARCHAR(255) DEFAULT NULL,
-    headquarters ENUM('Sede Central - San Pablo, Heredia', 'Sede Secundaria - San Joaquín, Heredia') NOT NULL
+    brand VARCHAR(50) NOT NULL,              
+    model VARCHAR(50) NOT NULL,     
+    price DECIMAL(10, 2) NOT NULL,     
+    status ENUM('Disponible', 'Reservado', 'Vendido') DEFAULT 'Disponible' NOT NULL, 
+    image_path VARCHAR(255) DEFAULT NULL,     
+    headquarters ENUM('Sede Central - San Pablo, Heredia', 'Sede Secundaria - San Joaquín, Heredia') NOT NULL,     
+    status_vehicle_available VARCHAR(10) NOT NULL,    
+    km_vehicle DECIMAL (10,3) NOT NULL, 
+    type_vehicle VARCHAR (10) NOT NULL, 
+    traction_vehicle VARCHAR(3) NOT NULL, 
+    motor_vehicle VARCHAR (8) NOT NULL   
 );
+SELECT * FROM vehicles
 
 
 CREATE TABLE sales (
@@ -141,15 +147,16 @@ CREATE TABLE reservations (
     FOREIGN KEY (id_vehicle) REFERENCES vehicles(id_vehicle)
 );
  
- 
+ -- Crear tabla para registrar los cambios de sede
  CREATE TABLE headquarters_change (
     id_headquartersChange INT AUTO_INCREMENT PRIMARY KEY,  -- ID único para cada vehículo
-    brand VARCHAR(50) NOT NULL,  -- Marca del vehículo
-    model VARCHAR(50) NOT NULL,  -- Modelo del vehículo
+    brand_change VARCHAR(50) NOT NULL,  -- Marca del vehículo
+    model_change VARCHAR(50) NOT NULL,  -- Modelo del vehículo
     change_date DATETIME DEFAULT CURRENT_TIMESTAMP,
     headquarters_change VARCHAR(40) NOT NULL,
     status_change ENUM('Llegó') DEFAULT 'Llegó'
 );
+SELECT * FROM headquarters_change
 
 
 CREATE TABLE offers (
