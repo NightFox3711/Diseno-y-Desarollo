@@ -1,0 +1,216 @@
+html,
+body {
+    font-family: 'Open Sans', sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #FFFFFF;
+    color: #1F3C6E;
+}
+
+header {
+    background-color: #1F3C6E;
+    color: #FFFFFF;
+    padding: 20px;
+    text-align: center;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+header h1 {
+    margin: 0;
+    font-weight: 300;
+    font-size: 2.5rem;
+}
+
+header p {
+    margin: 5px 0;
+    font-size: 1.1rem;
+}
+
+header a {
+    color: #ffffff;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+header a:hover {
+    text-decoration: underline;
+}
+
+/* Barra de navegación */
+nav.navbar {
+    background-color: #1F3C6E;
+}
+
+nav.navbar .navbar-brand {
+    color: #FFFFFF;
+    font-size: 1.1rem;
+    font-weight: 600;
+    text-decoration: none;
+    transition: color 0.3s;
+}
+
+nav.navbar .navbar-brand:hover {
+    color: #4A90E2;
+}
+
+nav.navbar .navbar-nav {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+}
+
+nav.navbar .nav-item {
+    position: relative;
+}
+
+nav.navbar .nav-link {
+    color: #FFFFFF;
+    font-size: 1.2rem;
+    font-weight: 600;
+    padding: 16px 24px;
+    border-radius: 8px;
+    text-decoration: none;
+    transition: transform 0.3s, background 0.3s;
+}
+
+nav.navbar .nav-link:hover {
+    background-color: #3F6A94;
+    transform: scale(1.05);
+}
+
+nav.navbar .nav-item:before {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 0%;
+    height: 2px;
+    background-color: #FFFFFF;
+    transition: width 0.3s;
+}
+
+nav.navbar .nav-item:hover:before {
+    width: 100%;
+}
+
+
+/* Encabezado */
+h2 {
+    font-size: 2rem;
+    font-weight: 600;
+    color: #1F3C6E;
+    text-align: center;
+    margin-top: 20px;
+}
+
+/* Mensajes de éxito y error */
+p {
+    text-align: center;
+    font-size: 1.2rem;
+    color: #1F3C6E;
+    margin-top: 10px;
+}
+
+/* Estilo del formulario */
+form {
+    width: 80%;
+    margin: 20px auto;
+    padding: 20px;
+    background-color: #f7f7f7;
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Estilos para los labels y inputs */
+label {
+    font-size: 1.1rem;
+    color: #333333;
+    margin-bottom: 5px;
+    display: block;
+}
+
+select, input[type="text"], input[type="hidden"] {
+    width: 100%;
+    padding: 12px;
+    margin-bottom: 15px;
+    font-size: 1.1rem;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+}
+
+select:focus, input[type="text"]:focus {
+    border-color: #1F3C6E;
+    outline: none;
+}
+
+/* Estilo para el botón de enviar */
+button {
+    background-color: #1F3C6E;
+    color: #FFFFFF;
+    padding: 15px 30px;
+    border: none;
+    border-radius: 5px;
+    font-size: 1.2rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+button:hover {
+    background-color: #468EDB;
+    transform: scale(1.05);
+}
+
+/* Estilo para la tabla de cotizaciones */
+table {
+    width: 100%;
+    margin-top: 20px;
+    border-collapse: collapse;
+}
+
+th, td {
+    padding: 12px;
+    text-align: left;
+    font-size: 1rem;
+    border-bottom: 1px solid #ccc;
+}
+
+th {
+    background-color: #1F3C6E;
+    color: #FFFFFF;
+}
+
+tr:nth-child(even) {
+    background-color: #f7f7f7;
+}
+
+tr:hover {
+    background-color: #f1f1f1;
+}
+
+
+
+#Ventas {
+    width: 100% !important;
+    table-layout: fixed;
+}
+
+table.dataTable {
+    width: 100% !important;
+}
+
+.btn-custom {
+    background-color: #1F3C6E;
+    color: white;
+    border: none;
+    font-weight: 500;
+    transition: all 0.3s ease;
+    padding: 10px 0;
+    border-radius: 8px;
+}
+
+.btn-custom:hover {
+    background-color: #16325C;
+    color: white;
+    transform: scale(1.02);
+}
+

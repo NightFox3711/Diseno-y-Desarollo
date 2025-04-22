@@ -1,0 +1,92 @@
+/* Reset básico */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+
+/* Fondo con degradado */
+body {
+    height: 100vh;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: linear-gradient(135deg, #3b4a6b, #95b3cc); /* Degradado azul pastel oscuro a celeste pastel oscuro */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #000;
+}
+
+/* Contenedor */
+.register-container {
+    background-color: #ffffff;
+    border-radius: 16px;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+    padding: 50px 40px;
+    width: 500px;
+}
+
+/* Título */
+.register-container h1 {
+    font-family: 'Georgia', serif;
+    font-size: 28px;
+    color: #1b2d4a;
+    margin-bottom: 10px;
+    text-align: center;
+}
+
+/* Subtítulo */
+.register-container p {
+    font-size: 15px;
+    text-align: center;
+    margin-bottom: 30px;
+    color: #333;
+}
+
+/* Etiquetas */
+label {
+    display: block;
+    margin-top: 18px;
+    font-size: 14px;
+    font-weight: 600;
+    color: #1c1c1c;
+}
+
+/* Entradas */
+input[type="text"],
+input[type="password"],
+select {
+    width: 100%;
+    padding: 14px;
+    margin-top: 6px;
+    border: 1px solid #b0c4de;
+    border-radius: 8px;
+    background-color: #f6faff;
+    font-size: 14px;
+    transition: border-color 0.3s ease;
+}
+
+input:focus,
+select:focus {
+    border-color: #47678f;
+    outline: none;
+}
+
+/* Botón */
+button {
+    margin-top: 30px;
+    width: 100%;
+    padding: 14px;
+    background-color: #2c3e5e; /* Azul pastel oscuro profundo */
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+button:hover {
+    background-color: #47678f;
+}

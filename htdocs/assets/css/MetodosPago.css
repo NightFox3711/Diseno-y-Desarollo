@@ -1,0 +1,156 @@
+body {
+    font-family: 'Open Sans', sans-serif;
+    background-color: #f8f9fa;
+    color: #1F3C6E;
+    margin: 0;
+    padding: 0;
+  }
+  
+  header {
+    background-color: #1F3C6E;
+    color: #fff;
+    padding: 30px 20px;
+    text-align: center;
+  }
+  
+  header h1 {
+    font-size: 2.5rem;
+    font-weight: 300;
+    margin: 0;
+  }
+  
+  header p {
+    font-size: 1rem;
+    margin: 5px 0 0;
+  }
+  
+  header a {
+    color: #fff;
+    text-decoration: underline;
+    font-weight: bold;
+  }
+  /* Barra de navegación */
+nav.navbar {
+  background: #1F3C6E;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+/* Marca (título de navegación) */
+nav.navbar .navbar-brand {
+  color: #FFFFFF !important;
+  font-size: 1.1rem;
+  font-weight: 600;
+}
+
+nav.navbar .navbar-brand:hover {
+  color: #BFD8FF !important;
+}
+
+/* Contenedor de enlaces */
+nav.navbar .navbar-nav {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+}
+
+/* Estilo de cada enlace */
+nav.navbar .nav-link {
+  color: #FFFFFF !important;
+  font-size: 1.1rem;
+  font-weight: 600;
+  padding: 15px 25px;
+  border-radius: 5px;
+  text-decoration: none !important;
+  transition: background 0.3s, transform 0.2s;
+  background-color: transparent !important;
+}
+
+/* Hover */
+nav.navbar .nav-link:hover {
+  background: #3F6A94 !important;
+  transform: scale(1.05);
+  color: #FFFFFF !important;
+}
+
+/* Activo y visible */
+.navbar-nav .nav-link.active,
+.navbar-nav .nav-link.show {
+  color: #FFFFFF !important;
+}
+
+/* Íconos de Bootstrap */
+.navbar .nav-link i {
+  color: #FFFFFF !important;
+  margin-right: 5px;
+}
+
+ 
+  
+  main {
+    max-width: 900px;
+    background: #fff;
+    margin: 40px auto;
+    padding: 40px 30px;
+    border-radius: 12px;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+  }
+  
+  main h2 {
+    font-weight: 600;
+    color: #1F3C6E;
+    margin-bottom: 30px;
+  }
+  
+  .form-section {
+    text-align: left;
+    font-size: 1.3rem;
+    font-weight: 600;
+    color: #4A90E2;
+    margin: 30px 0 15px;
+    border-bottom: 2px solid #e3e3e3;
+    padding-bottom: 10px;
+  }
+  
+  .form-label {
+    font-weight: 600;
+    color: #1F3C6E;
+  }
+  
+  .btn-custom {
+    background-color: #4A90E2;
+    color: #fff;
+    padding: 12px 30px;
+    border: none;
+    border-radius: 8px;
+    font-size: 1rem;
+    font-weight: 600;
+    transition: background 0.3s ease;
+  }
+  
+  .btn-custom:hover {
+    background-color: #1F3C6E;
+  }
+  
+  .btn-cancel {
+    background-color: transparent;
+    color: #1F3C6E;
+    border: 2px solid #1F3C6E;
+    padding: 10px 25px;
+    border-radius: 8px;
+    font-weight: 600;
+    transition: all 0.3s ease;
+  }
+  
+  .btn-cancel:hover {
+    background-color: #1F3C6E;
+    color: white;
+  }
+  
+  footer {
+    background-color: #1F3C6E;
+    color: #fff;
+    text-align: center;
+    padding: 20px 0;
+    margin-top: 40px;
+  }
+  

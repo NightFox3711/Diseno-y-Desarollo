@@ -1,0 +1,220 @@
+html,
+body {
+    font-family: 'Open Sans', sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #FFFFFF;
+    color: #1F3C6E;
+}
+
+header {
+    background-color: #1F3C6E;
+    color: #FFFFFF;
+    padding: 20px;
+    text-align: center;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+header h1 {
+    margin: 0;
+    font-weight: 300;
+    font-size: 2.5rem;
+}
+
+header p {
+    margin: 5px 0;
+    font-size: 1.1rem;
+}
+
+header a {
+    color: #ffffff;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+header a:hover {
+    text-decoration: underline;
+}
+
+nav.navbar {
+    background: #1F3C6E;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+nav.navbar .navbar-brand {
+    color: #FFFFFF !important;
+    font-size: 1.1rem;
+    font-weight: 600;
+}
+
+nav.navbar .navbar-brand:hover {
+    color: #BFD8FF !important;
+}
+
+nav.navbar .navbar-nav {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+}
+
+nav.navbar .nav-link {
+    color: #FFFFFF !important;
+    font-size: 1.1rem;
+    font-weight: 600;
+    padding: 15px 25px;
+    border-radius: 5px;
+    text-decoration: none !important;
+    transition: background 0.3s, transform 0.2s;
+    background-color: transparent !important;
+}
+
+nav.navbar .nav-link:hover {
+    background: #3F6A94 !important;
+    transform: scale(1.05);
+    color: #FFFFFF !important;
+}
+
+.navbar-nav .nav-link.active,
+.navbar-nav .nav-link.show {
+    color: #FFFFFF !important;
+}
+
+.navbar .nav-link i {
+    color: #FFFFFF !important;
+    margin-right: 5px;
+}
+
+main {
+    padding: 60px;
+    max-width: 1100px;
+    margin: 80px auto; /* Aumenté el margen superior y la separación total */
+    background: #FFFFFF;
+    border-radius: 16px;
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+}
+
+h2 {
+    color: #1F3C6E;
+    text-align: center;
+    font-weight: 400;
+    margin-bottom: 60px; /* Aumenté el margen inferior para más espacio */
+}
+
+
+table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0 12px;
+    margin: 30px 0 40px;
+    text-align: center;
+    table-layout: fixed;
+}
+
+#tablaVehiculos thead th,
+#tablaHistorial thead th {
+    background-color: #1F3C6E !important;
+    color: white !important;
+    font-weight: bold;
+    font-size: 14px;
+    padding: 14px 10px;
+    white-space: nowrap;
+}
+
+#tablaHistorial {
+    margin: 0 auto;
+    width: 100%;
+}
+
+table th,
+table td {
+    border: 1px solid #ddd;
+    padding: 16px 18px;
+    vertical-align: middle;
+    word-break: break-word;
+    font-size: 15px;
+    background-color: white;
+}
+
+table th {
+    background-color: #1F3C6E;
+    color: #FFFFFF;
+    text-transform: uppercase;
+    font-size: 13px;
+}
+
+table tr:nth-child(even) td {
+    background-color: #f2f2f2;
+}
+
+table tr:hover td {
+    background-color: #e6e6e6;
+}
+
+.form-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 40px;
+    padding: 30px;
+    background-color: #f9f9f9;
+    border-radius: 15px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    max-width: 1000px;
+    margin: 0 auto 60px;
+}
+
+.form-column {
+    flex: 1;
+    min-width: 300px;
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+}
+
+.form-column label {
+    font-weight: bold;
+    color: #333;
+}
+
+.form-column input,
+.form-column select {
+    padding: 10px 12px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    font-size: 14px;
+    transition: border-color 0.3s;
+}
+
+.form-column input:focus,
+.form-column select:focus {
+    border-color: #4A90E2;
+    outline: none;
+}
+
+.submit-btn {
+    background-color: #1F3C6E;
+    color: white;
+    border: none;
+    padding: 12px 18px;
+    border-radius: 8px;
+    font-size: 16px;
+    cursor: pointer;
+    margin-top: 20px;
+    transition: background-color 0.3s;
+}
+
+.submit-btn:hover {
+    background-color: #4A90E2;
+}
+
+.tab-pane {
+    transition: all 0.4s ease-in-out;
+    opacity: 0;
+    transform: translateX(30px);
+    display: none;
+}
+
+.tab-pane.show.active {
+    display: block;
+    opacity: 1;
+    transform: translateX(0);
+}

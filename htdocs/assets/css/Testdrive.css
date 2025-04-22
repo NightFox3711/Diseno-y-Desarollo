@@ -1,0 +1,152 @@
+/* Estilo general */
+html, body {
+    font-family: 'Roboto', sans-serif;
+    background-color: #f8f9fa;
+    color: #333;
+    margin: 0;
+    padding: 0;
+    height: 100%;
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+/* Encabezado */
+header {
+    background-color: #1F3C6E;
+    color: white;
+    text-align: center;
+    padding: 20px 0;
+    margin-bottom: 0;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+header h1 {
+    font-family: 'Georgia', serif;
+    font-size: 2.5rem;
+    margin: 0;
+}
+
+header p {
+    font-size: 1rem;
+    font-weight: 500;
+}
+
+header a {
+    color: #ffffff;
+    font-weight: 600;
+    text-decoration: none;
+}
+
+header a:hover {
+    text-decoration: underline;
+}
+
+/* Navegación */
+/* Barra de navegación */
+nav.navbar {
+    background: #1F3C6E;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+/* Marca (título de navegación) */
+nav.navbar .navbar-brand {
+    color: #FFFFFF !important;
+    font-size: 1.1rem;
+    font-weight: 600;
+}
+
+nav.navbar .navbar-brand:hover {
+    color: #BFD8FF !important;
+}
+
+/* Contenedor de enlaces */
+nav.navbar .navbar-nav {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+}
+
+/* Estilo de cada enlace */
+nav.navbar .nav-link {
+    color: #FFFFFF !important;
+    font-size: 1.1rem;
+    font-weight: 600;
+    padding: 15px 25px;
+    border-radius: 5px;
+    text-decoration: none !important;
+    transition: background 0.3s, transform 0.2s;
+    background-color: transparent !important;
+}
+
+/* Hover */
+nav.navbar .nav-link:hover {
+    background: #3F6A94 !important;
+    transform: scale(1.05);
+    color: #FFFFFF !important;
+}
+
+/* Activo y visible */
+.navbar-nav .nav-link.active,
+.navbar-nav .nav-link.show {
+    color: #FFFFFF !important;
+}
+
+/* Íconos de Bootstrap */
+.navbar .nav-link i {
+    color: #FFFFFF !important;
+    margin-right: 5px;
+}
+
+/* Estilo título */
+.titulo-principal {
+    font-family: 'Georgia', serif;
+    font-size: 2rem;
+    text-align: center;
+    color: #1F3C6E;
+    margin-bottom: 1rem;
+}
+
+/* Contenedor de confirmación */
+.confirmation-container {
+    background-color: white;
+    padding: 2rem;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    max-width: 600px;
+    margin: 0 auto;
+    text-align: center;
+}
+
+/* Botón de volver */
+.btn-danger {
+    background-color: #dc3545;
+    border: none;
+    padding: 12px 20px;
+    font-size: 1rem;
+    font-weight: 600;
+    border-radius: 8px;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.btn-danger:hover {
+    background-color: #b02a37;
+    transform: scale(1.05);
+}
+
+/* Footer */
+footer {
+    background-color: #1F3C6E;
+    color: white;
+    text-align: center;
+    padding: 15px 0;
+    margin-top: auto;
+}
+
+footer p {
+    margin: 0;
+    font-size: 1rem;
+}

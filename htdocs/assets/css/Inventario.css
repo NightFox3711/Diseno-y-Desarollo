@@ -1,0 +1,234 @@
+html,
+body {
+    font-family: 'Open Sans', sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #FFFFFF;
+    color: #1F3C6E;
+}
+
+header {
+    background-color: #1F3C6E;
+    color: #FFFFFF;
+    padding: 20px;
+    text-align: center;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+header h1 {
+    margin: 0;
+    font-weight: 300;
+    font-size: 2.5rem;
+}
+
+header p {
+    margin: 5px 0;
+    font-size: 1.1rem;
+}
+
+header a {
+    color: #ffffff;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+header a:hover {
+    text-decoration: underline;
+}
+
+/* Barra de navegación */
+/* Barra de navegación */
+nav.navbar {
+    background: #1F3C6E;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+/* Marca (título de navegación) */
+nav.navbar .navbar-brand {
+    color: #FFFFFF !important;
+    font-size: 1.1rem;
+    font-weight: 600;
+}
+
+nav.navbar .navbar-brand:hover {
+    color: #BFD8FF !important;
+}
+
+/* Contenedor de enlaces */
+nav.navbar .navbar-nav {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+}
+
+/* Estilo de cada enlace */
+nav.navbar .nav-link {
+    color: #FFFFFF !important;
+    font-size: 1.1rem;
+    font-weight: 600;
+    padding: 15px 25px;
+    border-radius: 5px;
+    text-decoration: none !important;
+    transition: background 0.3s, transform 0.2s;
+    background-color: transparent !important;
+}
+
+/* Hover */
+nav.navbar .nav-link:hover {
+    background: #3F6A94 !important;
+    transform: scale(1.05);
+    color: #FFFFFF !important;
+}
+
+/* Activo y visible */
+.navbar-nav .nav-link.active,
+.navbar-nav .nav-link.show {
+    color: #FFFFFF !important;
+}
+
+/* Íconos de Bootstrap */
+.navbar .nav-link i {
+    color: #FFFFFF !important;
+    margin-right: 5px;
+}
+
+/* Estilos para el Inventario */
+main {
+    padding: 20px;
+    max-width: 900px;
+    margin: 30px auto;
+    background: #FFFFFF;
+    border-radius: 16px;
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+}
+
+h2 {
+    color: #1F3C6E;
+    text-align: center;
+    font-weight: 400;
+    margin-bottom: 20px;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 20px 0 20px -105px; /* Mueve la tabla 40px a la izquierda */
+    text-align: center;
+    table-layout: auto;
+}
+
+#tablaVehiculos thead th,
+#tablaHistorial thead th {
+    background-color: #1F3C6E !important;
+    color: white !important;
+    font-weight: bold;
+    font-size: 14px;
+    padding: 12px 10px;
+    white-space: nowrap;
+    width: 100% !important;
+}
+
+#tablaHistorial {
+    margin: 0 auto; /* Centra la tabla */
+    width: 95%; /* Ajusta el ancho al 95% para evitar que se estire demasiado */
+}
+
+table th,
+table td {
+    border: 1px solid #ddd;
+    padding: 8px 10px;
+    vertical-align: middle;
+    word-wrap: break-word;
+}
+
+table th {
+    background-color: #1F3C6E;
+    color: #FFFFFF;
+    text-transform: uppercase;
+    font-size: 13px;
+    white-space: nowrap;
+}
+
+table td {
+    font-size: 14px;
+    max-width: 150px;
+    overflow-wrap: break-word;
+}
+
+table tr:nth-child(even) {
+    background-color: #f2f2f2;
+}
+
+table tr:hover {
+    background-color: #e6e6e6;
+}
+
+/* Formulario */
+.form-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 40px;
+    padding: 20px;
+    background-color: #f9f9f9;
+    border-radius: 15px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    max-width: 1000px;
+    margin: 0 auto;
+}
+
+.form-column {
+    flex: 1;
+    min-width: 300px;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.form-column label {
+    font-weight: bold;
+    color: #333;
+}
+
+.form-column input,
+.form-column select {
+    padding: 8px 10px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    font-size: 14px;
+    transition: border-color 0.3s;
+}
+
+.form-column input:focus,
+.form-column select:focus {
+    border-color: #4A90E2;
+    outline: none;
+}
+
+.submit-btn {
+    background-color: #1F3C6E;
+    color: white;
+    border: none;
+    padding: 10px;
+    border-radius: 8px;
+    font-size: 16px;
+    cursor: pointer;
+    margin-top: 10px;
+    transition: background-color 0.3s;
+}
+
+.submit-btn:hover {
+    background-color: #4A90E2;
+}
+
+.tab-pane {
+    transition: all 0.4s ease-in-out;
+    opacity: 0;
+    transform: translateX(30px);
+    display: none;
+}
+
+.tab-pane.show.active {
+    display: block;
+    opacity: 1;
+    transform: translateX(0);
+}

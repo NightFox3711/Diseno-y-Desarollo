@@ -1,0 +1,195 @@
+/* Reset */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+html, body {
+    font-family: 'Open Sans', Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    background-color: #f4f4f4;
+    color: #1F3C6E;
+    display: flex;
+    flex-direction: column;
+}
+
+body {
+    flex: 1;
+}
+
+/* Encabezado */
+header {
+    background: #1F3C6E;
+    color: #FFFFFF;  
+    padding: 20px;
+    text-align: center;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+}
+header h1 {
+    margin: 0;
+    font-size: 2.5rem;
+    font-weight: 300;
+}
+header p {
+    margin: 5px 0;
+    font-size: 1.1rem;
+}
+header a {
+    color: #ffffff;
+    text-decoration: none;
+    font-weight: bold;
+}
+header a:hover {
+    text-decoration: underline;
+}
+
+/* Barra de navegación */
+nav.navbar {
+    background: #1F3C6E;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+/* Marca (título de navegación) */
+nav.navbar .navbar-brand {
+    color: #FFFFFF !important;
+    font-size: 1.1rem;
+    font-weight: 600;
+}
+
+nav.navbar .navbar-brand:hover {
+    color: #BFD8FF !important;
+}
+
+/* Contenedor de enlaces */
+nav.navbar .navbar-nav {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+}
+
+/* Estilo de cada enlace */
+nav.navbar .nav-link {
+    color: #FFFFFF !important;
+    font-size: 1.1rem;
+    font-weight: 600;
+    padding: 15px 25px;
+    border-radius: 5px;
+    text-decoration: none !important;
+    transition: background 0.3s, transform 0.2s;
+    background-color: transparent !important;
+}
+
+/* Hover */
+nav.navbar .nav-link:hover {
+    background: #3F6A94 !important;
+    transform: scale(1.05);
+    color: #FFFFFF !important;
+}
+
+/* Activo y visible */
+.navbar-nav .nav-link.active,
+.navbar-nav .nav-link.show {
+    color: #FFFFFF !important;
+}
+
+/* Íconos de Bootstrap */
+.navbar .nav-link i {
+    color: #FFFFFF !important;
+    margin-right: 5px;
+}
+
+/* Contenedor de contenido */
+.container-content {
+    margin-top: 20px;
+    padding-bottom: 40px;
+    flex: 1;
+}
+
+/* Estilos para la tabla del carrito */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 2rem auto;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+}
+th, td {
+    text-align: center !important;
+    padding: 15px;
+}
+th {
+    background-color: #1F3C6E;
+    color: #FFFFFF; 
+    /* text-transform: uppercase; Eliminar esta línea */
+    font-size: 0.9rem;
+}
+
+td {
+    padding: 12px;
+    border-bottom: 1px solid #eee;
+}
+tr:hover {
+    background-color: #f9f9f9;
+}
+
+/* Footer */
+footer {
+    text-align: center;
+    padding: 15px;
+    background: #1F3C6E;
+    color: #FFFFFF; 
+    font-size: 0.9rem;
+    margin-top: auto; /* Hace que el footer se mantenga abajo */
+}
+
+footer p {
+    margin: 0;
+}
+
+/* Botones */
+.btn-custom {
+    min-width: 220px;
+    padding: 1rem 2rem;
+    border-radius: 50px;
+    font-size: 1.1rem;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+}
+
+.btn-menu {
+    background: linear-gradient(145deg, #1F3C6E, #468EDB); 
+    color: #FFFFFF !important;
+}
+.btn-menu:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 12px rgba(70,142,219,0.3);
+}
+
+.btn-pago {
+    background: linear-gradient(145deg, #28a745, #218838);
+    color: #FFFFFF !important;
+    transition: all 0.3s ease;
+}
+.btn-pago:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 12px rgba(40,167,69,0.3);
+}
+.btn-eliminar {
+    background: linear-gradient(145deg, #D32F2F, #C62828); /* Rojo pastel oscuro */
+    color: #FFFFFF !important;
+    padding: 0.5rem 1.5rem;
+    border-radius: 20px;
+    border: none;
+    transition: all 0.3s ease;
+}
+
+.btn-eliminar:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(197, 40, 40, 0.3); /* sombra más suave en tono rojo */
+}
